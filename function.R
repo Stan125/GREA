@@ -16,6 +16,7 @@ rm(path)
 library(readr)
 library(foreign)
 library(data.table)
+library(readxl)
 
 # Reading SPSS
 spss <- read.spss("data/spss_SAQ.sav", to.data.frame = TRUE)
@@ -32,23 +33,36 @@ csv <- read_csv2(file = "data/csv_food_supply.csv")
 ## Function
 
 # Inputs: file location, name of dataset
-input_loc <- "data/excel_aachen.xlsx"
-data_name <- "testdata"
+filelocation <- "data/excel_aachen.xlsx"
+name <- "testdata"
 
-# Split string
-str <- strsplit(input_loc, "[.]")[[1]]
-
-# File ending
-filetype <- str[length(str)]
-
-if (filetype == "sav") {
-  assign(data_name,
-         read.spss(file = input_loc, to.data.frame = TRUE))
-} else if (filetype == "dta") {
-  assign(data_name,
-         read.dta(file = input_loc))
-} else if (any(filetype == c("xls", "xlsx"))) {
-  asign(data_name,
-        read_excel(path = input_loc))
+GREA_fun <- function(input_loc, data_name) {
+  
+  # Split string
+  str <- strsplit(input_loc, "[.]")[[1]]
+  
+  # File ending
+  filetype <- str[length(str)]
+  
+  # SPSS: sav
+  if (filetype == "sav")
+    assign(data_name,
+           read.spss(file = input_loc, to.data.frame = TRUE),
+           envir = .GlobalEnv)
+  
+  # STATA: dta
+  else if (filetype == "dta")
+    assign(data_name,
+           read.dta(file = input_loc),
+           envir = .GlobalEnv)
+  
+  # Excel: xls, xlsx
+  else if (any(filetype == c("xls", "xlsx")))
+    assign(data_name,
+           read_excel(path = input_loc),
+           envir = .GlobalEnv)
 }
+
+
+
 
