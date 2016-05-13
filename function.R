@@ -18,18 +18,6 @@ library(foreign)
 library(data.table)
 library(readxl)
 
-# Reading SPSS
-spss <- read.spss("data/spss_SAQ.sav", to.data.frame = TRUE)
-
-# Reading Excel
-xlsx <- read_excel("data/excel_aachen.xlsx")
-
-# Reading Stata Files
-dta <- read.dta("data/stata_africa.dta")
-
-# Reading csv
-csv <- read_csv2(file = "data/csv_food_supply.csv")
-
 ## Function
 
 # Inputs: file location, name of dataset
