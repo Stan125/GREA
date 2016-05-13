@@ -31,22 +31,55 @@ source("function.R")
 options(shiny.maxRequestSize = 500*1024^2)
 
 ui <- miniPage(
-  gadgetTitleBar(
-    # Name that is displayed
-    title = "Gotta Read 'Em All"
-  ),
+  # Title Bar
+  gadgetTitleBar(title = "Gotta Read 'Em All"),
   
-  # 2 Rows
-  fillRow(
-    miniContentPanel(
-      # File Input
-      fileInput("file", label = "Select file to read into R")
-    )
+  # Tabstrips
+  miniTabstripPanel(
+    
+    # Input Tab Panel
+    miniTabPanel(
+      "Input", icon = icon("folder-open"),
+      miniContentPanel(
+        fillRow(
+          # File Input
+          fileInput("file", label = "Select file to read into R")
+        ))),
+    
+    # Preview Tab Panel
+    miniTabPanel(
+      "Preview", icon = icon("table"),
+      miniContentPanel(
+        #DT::dataTableOutput("preview")
+        textOutput("tableprint")
+      ))
+    
   )
 )
 
 
 server <- shinyServer(function(input, output) {
+  
+  # # Render preview table
+  # output$preview <- DT::renderDataTable({
+  #   
+  #   # Store file
+  #   inFile <- input$file
+  #   
+  #   # Read it, and display it
+  #   GREA_fun(inFile$datapath)
+  #   
+  # }, options = list(autoWidth = FALSE, 
+  #                   paging = TRUE,
+  #                   searching = FALSE,
+  #                   info = TRUE,
+  #                   ordering = FALSE,
+  #                   processing = FALSE,
+  #                   scrollX = TRUE),
+  # class = "cell-border stripe")
+  
+  
+  
   # Close when pressing "done" button
   observeEvent(input$done, {
     stopApp()

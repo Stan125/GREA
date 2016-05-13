@@ -24,7 +24,10 @@ library(readxl)
 filelocation <- "data/excel_aachen.xlsx"
 name <- "testdata"
 
-GREA_fun <- function(input_loc, data_name) {
+GREA_fun <- function(input_loc) {
+  
+  if (is.null(input_loc)) 
+    return(NULL)
   
   # Split string
   str <- strsplit(input_loc, "[.]")[[1]]
@@ -34,21 +37,18 @@ GREA_fun <- function(input_loc, data_name) {
   
   # SPSS: sav
   if (filetype == "sav")
-    assign(data_name,
-           read.spss(file = input_loc, to.data.frame = TRUE),
-           envir = .GlobalEnv)
+    data <- read.spss(file = input_loc, to.data.frame = TRUE)
   
   # STATA: dta
   else if (filetype == "dta")
-    assign(data_name,
-           read.dta(file = input_loc),
-           envir = .GlobalEnv)
+    data <- read.dta(file = input_loc)
   
   # Excel: xls, xlsx
   else if (any(filetype == c("xls", "xlsx")))
-    assign(data_name,
-           read_excel(path = input_loc),
-           envir = .GlobalEnv)
+    data <- read_excel(path = input_loc)
+  
+  # Give back DF
+  return(data)
 }
 
 
