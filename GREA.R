@@ -42,8 +42,13 @@ ui <- miniPage(
       "Input", icon = icon("folder-open"),
       miniContentPanel(
         fillRow(
-          # File Input
-          fileInput("file", label = "Select file to read into R")
+          fillCol(
+            # File Input
+            fileInput("file", label = "Select file to read into R", width = "80%")
+          ),
+          fillCol(
+            strong(p("Further options (per filetype)", options = "align = top"))
+          )
         ))),
     
     # Preview Tab Panel

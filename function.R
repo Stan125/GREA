@@ -15,8 +15,8 @@ rm(path)
 # Trying out stuff
 library(readr)
 library(foreign)
-library(data.table)
 library(readxl)
+library(R.matlab)
 
 ## Function
 
@@ -31,17 +31,31 @@ GREA_fun <- function(filelocation) {
   # File ending
   filetype <- str[length(str)]
   
-  # SPSS: sav
-  if (filetype == "sav")
-    data <- read.spss(file = filelocation, to.data.frame = TRUE)
+  # ------ Files without any other options ------ #
   
-  # STATA: dta
-  else if (filetype == "dta")
+  # STATA: .dta
+  if (filetype == "dta")
     data <- read.dta(file = filelocation)
   
-  # Excel: xls, xlsx
+  # MATLAB: .mat
+  else if (filetype == "mat")
+    data <- readMat(con = filelocation)
+  
+  # ------ Files with sep, header, dec, NA options ------ #
+  
+  # raw, csv, txt, asc, dat
+  
+  # ------ Files with other options ------ #
+  
+  # SPSS: .sav
+  else if (filetype == "sav")
+    data <- read.spss(file = filelocation, to.data.frame = TRUE)
+  
+  # Excel: .xls, .xlsx
   else if (any(filetype == c("xls", "xlsx")))
     data <- read_excel(path = filelocation)
+  
+  
   
   # Give back DF
   return(data)
