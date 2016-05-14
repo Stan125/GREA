@@ -20,32 +20,28 @@ library(readxl)
 
 ## Function
 
-# Inputs: file location, name of dataset
-filelocation <- "data/excel_aachen.xlsx"
-name <- "testdata"
-
-GREA_fun <- function(input_loc) {
+GREA_fun <- function(filelocation) {
   
-  if (is.null(input_loc)) 
+  if (is.null(filelocation)) 
     return(NULL)
   
   # Split string
-  str <- strsplit(input_loc, "[.]")[[1]]
+  str <- strsplit(filelocation, "[.]")[[1]]
   
   # File ending
   filetype <- str[length(str)]
   
   # SPSS: sav
   if (filetype == "sav")
-    data <- read.spss(file = input_loc, to.data.frame = TRUE)
+    data <- read.spss(file = filelocation, to.data.frame = TRUE)
   
   # STATA: dta
   else if (filetype == "dta")
-    data <- read.dta(file = input_loc)
+    data <- read.dta(file = filelocation)
   
   # Excel: xls, xlsx
   else if (any(filetype == c("xls", "xlsx")))
-    data <- read_excel(path = input_loc)
+    data <- read_excel(path = filelocation)
   
   # Give back DF
   return(data)

@@ -50,8 +50,8 @@ ui <- miniPage(
     miniTabPanel(
       "Preview", icon = icon("table"),
       miniContentPanel(
-        #DT::dataTableOutput("preview")
-        textOutput("tableprint")
+        DT::dataTableOutput("preview")
+        #textOutput("tableprint")
       ))
     
   )
@@ -60,24 +60,45 @@ ui <- miniPage(
 
 server <- shinyServer(function(input, output) {
   
-  # # Render preview table
-  # output$preview <- DT::renderDataTable({
-  #   
-  #   # Store file
+  # Render preview table
+  output$preview <- DT::renderDataTable({
+
+    # Store file
+    inFile <- input$file
+    
+    # Rename the filename to be the same as before
+    command1 <- paste0("mv ", inFile$datapath,
+                       " ", 
+                       dirname(inFile$datapath), "/",inFile$name)
+    system(command1)
+    
+    # Get new filelocation
+    fileloc <- paste0(dirname(inFile$datapath), "/", inFile$name)
+
+    # Read it, and display it
+    head(GREA_fun(fileloc))
+
+  }, options = list(autoWidth = FALSE,
+                    paging = TRUE,
+                    searching = FALSE,
+                    info = TRUE,
+                    ordering = FALSE,
+                    processing = FALSE,
+                    scrollX = TRUE),
+  class = "cell-border stripe")
+
+
+  # output$tableprint <- renderPrint({
   #   inFile <- input$file
   #   
-  #   # Read it, and display it
-  #   GREA_fun(inFile$datapath)
+  #   # Rename the filename to be the same as before
+  #   command1 <- paste0("mv ", inFile$datapath,
+  #                      " ", 
+  #                      dirname(inFile$datapath), "/",inFile$name)
+  #   system(command1)
   #   
-  # }, options = list(autoWidth = FALSE, 
-  #                   paging = TRUE,
-  #                   searching = FALSE,
-  #                   info = TRUE,
-  #                   ordering = FALSE,
-  #                   processing = FALSE,
-  #                   scrollX = TRUE),
-  # class = "cell-border stripe")
-  
+  #   inFile$datapath
+  # })
   
   
   # Close when pressing "done" button
