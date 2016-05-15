@@ -18,10 +18,8 @@ library(foreign)
 library(readxl)
 library(R.matlab)
 
-## Function
-
-GREA_fun <- function(filelocation) {
-  
+## Function: obtain_filetype obtains the filetype of a file in a string
+obtain_filetype <- function(filelocation) {
   if (is.null(filelocation)) 
     return(NULL)
   
@@ -31,7 +29,20 @@ GREA_fun <- function(filelocation) {
   # File ending
   filetype <- str[length(str)]
   
-  # ------ Files without any other options ------ #
+  return(filetype)
+}
+
+
+## Function: GREA_fun
+
+GREA_fun <- function(filelocation, header = FALSE, sep = "", dec = ".") {
+  
+  if (is.null(filelocation)) 
+    return(NULL)
+  
+  filetype <- obtain_filetype(filelocation)
+  
+  # ------ Files without any options ------ #
   
   # STATA: .dta
   if (filetype == "dta")
@@ -44,6 +55,8 @@ GREA_fun <- function(filelocation) {
   # ------ Files with sep, header, dec, NA options ------ #
   
   # raw, csv, txt, asc, dat
+  else if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+    data <- read.table(file = filelocation, header = header, sep = sep, dec = dec)
   
   # ------ Files with other options ------ #
   
@@ -60,7 +73,6 @@ GREA_fun <- function(filelocation) {
   # Give back DF
   return(data)
 }
-
 
 
 

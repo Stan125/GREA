@@ -46,8 +46,11 @@ ui <- miniPage(
             # File Input
             fileInput("file", label = "Select file to read into R", width = "80%")
           ),
-          fillCol(
-            strong(p("Further options (per filetype)", options = "align = top"))
+          column(width = 6,
+            strong(p("Further options (per filetype)", options = "align = top")),
+            uiOutput("sep"),
+            uiOutput("dec"),
+            uiOutput("header")
           )
         ))),
     
@@ -65,47 +68,93 @@ ui <- miniPage(
 
 server <- shinyServer(function(input, output) {
   
+  # ------ REACTIVE FILE LOCATION MOVEMENT ------ #
+  
+  fileloc <- reactive({
+    if (!is.null(input$file)) {
+      # Store file
+      inFile <- input$file
+      
+      # Rename the filename to be the same as before
+      command1 <- paste0("mv ", inFile$datapath,
+                         " ", 
+                         dirname(inFile$datapath), "/",inFile$name)
+      system(command1)
+      
+      # Get new filelocation
+      paste0(dirname(inFile$datapath), "/", inFile$name)
+    }
+  })
+  
+  # ------ PREVIEW TABLE ------ #
+  
   # Render preview table
   output$preview <- DT::renderDataTable({
-
-    # Store file
-    inFile <- input$file
     
-    # Rename the filename to be the same as before
-    command1 <- paste0("mv ", inFile$datapath,
-                       " ", 
-                       dirname(inFile$datapath), "/",inFile$name)
-    system(command1)
-    
-    # Get new filelocation
-    fileloc <- paste0(dirname(inFile$datapath), "/", inFile$name)
-
     # Read it, and display it
-    head(GREA_fun(fileloc))
-
-  }, options = list(autoWidth = FALSE,
-                    paging = TRUE,
-                    searching = FALSE,
-                    info = TRUE,
-                    ordering = FALSE,
-                    processing = FALSE,
-                    scrollX = TRUE),
+    GREA_fun(fileloc(), 
+             # Options for raw, csv, txt, asc, dat
+             header = input$option_header,
+             sep = input$option_sep,
+             dec = input$option_dec)
+  }, options = list(autoWidth = FALSE, paging = TRUE, searching = FALSE,
+                    info = TRUE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
   class = "cell-border stripe")
 
+  # ------ INTERACTIVE UI ------ #
+  
+  # Render the UI button with sep selections, if dataset is selected
+  output$sep <- renderUI({
+    # Get filetype
+    filetype <- obtain_filetype(fileloc())
+    
+    # Render UI if a certain filetype is selected
+    if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+      selectInput(inputId = "option_sep",
+                  label = "Select Separator",
+                  choices = c( "White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t", 
+                              "Dot" = ".", "Comma" = ","))
+  })
 
-  # output$tableprint <- renderPrint({
-  #   inFile <- input$file
-  #   
-  #   # Rename the filename to be the same as before
-  #   command1 <- paste0("mv ", inFile$datapath,
-  #                      " ", 
-  #                      dirname(inFile$datapath), "/",inFile$name)
-  #   system(command1)
-  #   
-  #   inFile$datapath
-  # })
+  # Render the UI button with dec selections, if dataset is selected
+  output$dec <- renderUI({
+    # Get filetype
+    filetype <- obtain_filetype(fileloc())
+    
+    # Render UI if a certain filetype is selected
+    if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+      selectInput(inputId = "option_dec",
+                  label = "Select Decimal Mark",
+                  choices = c("Dot" = ".", "Comma" = ","))
+  })
   
+  # Render the UI button with the option to get a header
+  output$header <- renderUI({
+    # Get filetype
+    filetype <- obtain_filetype(fileloc())
+    
+    # Render UI if a certain filetype is selected
+    if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+      checkboxInput(inputId = "option_header", label = "Display header")
+  })
   
+  output$tableprint <- renderPrint({
+    if (!is.null(input$file)) {
+      inFile <- input$file
+      
+      # Rename the filename to be the same as before
+      command1 <- paste0("mv ", inFile$datapath,
+                         " ",
+                         dirname(inFile$datapath), "/",inFile$name)
+      system(command1)
+      
+      input$option_header
+      input$option_sep
+      input$option_dec
+    }
+  })
+  
+  # ------ AFTER PRESSING "done" ------ #
   # Close when pressing "done" button
   observeEvent(input$done, {
     stopApp()
@@ -113,7 +162,7 @@ server <- shinyServer(function(input, output) {
 })
 
 viewer <- dialogViewer(dialogName = "GREA", 
-                       height = 300, 
+                       height = 350, 
                        width = 500)
 
 runGadget(ui, server, viewer = viewer)
