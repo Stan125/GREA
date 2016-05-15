@@ -12,7 +12,7 @@
 library(shiny)
 library(miniUI)
 
-# Delete everything
+# Delete everything 
 rm(list = ls())
 
 # Set WD
@@ -48,9 +48,10 @@ ui <- miniPage(
           ),
           column(width = 6,
             strong(p("Further options (per filetype)", options = "align = top")),
-            uiOutput("sep"),
-            uiOutput("dec"),
-            uiOutput("header")
+            # Output for textlike files
+            uiOutput("sep"), uiOutput("dec"), uiOutput("header"),
+            # Output for xls, sav
+            uiOutput("todf_button"), uiOutput("sheet_field")
           )
         ))),
     
@@ -61,7 +62,6 @@ ui <- miniPage(
         DT::dataTableOutput("preview")
         #textOutput("tableprint")
       ))
-    
   )
 )
 
@@ -86,19 +86,33 @@ server <- shinyServer(function(input, output) {
     }
   })
   
+  # ------ VALIDATION ------ #
+  
+  # Creating the dataset
+  dataset <- reactive({
+    
+    # First try generating the dataset, if something goes wrong display error message
+    validate(
+      need(
+        try(data <- GREA_fun(fileloc(), 
+                             # Options for raw, csv, txt, asc, dat
+                             header = input$option_header,
+                             sep = input$option_sep, dec = input$option_dec,
+                             into.dataframe = input$option_todf,
+                             sheetIndex = input$option_sheetindex)
+        ), "        1. Wrong options for generating df, or\n
+        2. Outcome is not a df (for Excel and SPSS reader functions)")
+    )
+    data
+  })
+  
   # ------ PREVIEW TABLE ------ #
   
   # Render preview table
   output$preview <- DT::renderDataTable({
-    
-    # Read it, and display it
-    GREA_fun(fileloc(), 
-             # Options for raw, csv, txt, asc, dat
-             header = input$option_header,
-             sep = input$option_sep,
-             dec = input$option_dec)
+    dataset()
   }, options = list(autoWidth = FALSE, paging = TRUE, searching = FALSE,
-                    info = TRUE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
+                    info = FALSE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
   class = "cell-border stripe")
 
   # ------ INTERACTIVE UI ------ #
@@ -138,6 +152,31 @@ server <- shinyServer(function(input, output) {
       checkboxInput(inputId = "option_header", label = "Display header")
   })
   
+  # Render the "to dataframe" button
+  output$todf_button <- renderUI({
+    # Get filetype
+    filetype <- obtain_filetype(fileloc())
+    
+    # Render UI if a certain filetype is selected
+    if (any(filetype == "sav"))
+      checkboxInput(inputId = "option_todf", label = "Into Dataframe?", 
+                    value = TRUE)
+  })
+  
+  # Render the "sheetIndex" field
+  output$sheet_field <- renderUI({
+    
+    # Get filetype
+    filetype <- obtain_filetype(fileloc())
+    
+    # Render UI if a certain filetype is selected
+    if (any(filetype == c("xlsx", "xls")))
+      numericInput(inputId = "option_sheetindex", label = "Select Excel Sheet Index", 
+                    value = 1)
+  })
+  
+  # ------ HELPER STUFF ------ #
+  
   output$tableprint <- renderPrint({
     if (!is.null(input$file)) {
       inFile <- input$file
@@ -155,6 +194,7 @@ server <- shinyServer(function(input, output) {
   })
   
   # ------ AFTER PRESSING "done" ------ #
+  
   # Close when pressing "done" button
   observeEvent(input$done, {
     stopApp()

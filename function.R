@@ -35,7 +35,11 @@ obtain_filetype <- function(filelocation) {
 
 ## Function: GREA_fun
 
-GREA_fun <- function(filelocation, header = FALSE, sep = "", dec = ".") {
+GREA_fun <- function(filelocation, header = FALSE, sep = "", dec = ".",
+                     into.dataframe = TRUE, sheetIndex = 1) {
+  
+  # Wrap TryCatch around to specify error messages
+  tryCatch({
   
   if (is.null(filelocation)) 
     return(NULL)
@@ -62,17 +66,23 @@ GREA_fun <- function(filelocation, header = FALSE, sep = "", dec = ".") {
   
   # SPSS: .sav
   else if (filetype == "sav")
-    data <- read.spss(file = filelocation, to.data.frame = TRUE)
+    data <- read.spss(file = filelocation, to.data.frame = into.dataframe)
   
   # Excel: .xls, .xlsx
   else if (any(filetype == c("xls", "xlsx")))
-    data <- read_excel(path = filelocation)
-  
-  
+    data <- read_excel(path = filelocation, sheet = sheetIndex)
   
   # Give back DF
   return(data)
+  },
+  
+  # ------ Files with other options ------ #
+  error = function(err) {
+    message("1. Wrong options for generating df, or") 
+    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
+  },
+  warning = function(war) {
+    message("1. Wrong options for generating df, or") 
+    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
+  })
 }
-
-
-
