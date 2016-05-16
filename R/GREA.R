@@ -68,14 +68,13 @@ GREA <- function() {
         # Store file
         inFile <- input$file
 
-        # Rename the filename to be the same as before
-        command1 <- paste0("mv ", inFile$datapath,
-                           " ",
-                           dirname(inFile$datapath), "/",inFile$name)
-        system(command1)
+        # Rename file so it can be read
+        from <- inFile$datapath
+        to <- paste0(dirname(inFile$datapath), "/",inFile$name)
+        file.rename(from = from, to = to)
 
         # Get new filelocation
-        paste0(dirname(inFile$datapath), "/", inFile$name)
+        to
       }
     })
 
