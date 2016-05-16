@@ -1,0 +1,4 @@
+Name: Gotta Read Them All
+Description: RStudio Add-In to interactively read ALL the data into R
+Binding: GREA
+Interactive: true

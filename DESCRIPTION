@@ -1,0 +1,18 @@
+Package: GREA
+Type: Package
+Title: Gotta Read 'Em All
+Version: 0.9.0
+Author: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
+Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
+Depends:
+    rstudioapi,
+    shiny,
+    miniUI,
+    foreign,
+    readxl,
+    R.matlab,
+    DT
+Description: RStudio Add-In to interactively read ALL the data into R
+License: GPL-2
+LazyData: TRUE
+RoxygenNote: 5.0.1
