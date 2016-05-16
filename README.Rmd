@@ -32,7 +32,7 @@ devtools::install_github("Stan125/GREA")
 
 ### Usage
 
-#### Starting the Add-In
+#### 0. Starting the Add-In
 Calling the Add-In is simple: just click on the Add-In Tab and select 'Gotta Read Em All'. The Add-In itself quickly pops up and you are good to go!
 
 #### 1. Selecting the dataset
