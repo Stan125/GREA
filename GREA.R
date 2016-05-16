@@ -42,11 +42,12 @@ ui <- miniPage(
       "Input", icon = icon("folder-open"),
       miniContentPanel(
         fillRow(
-          fillCol(
+          column(width = 8,
             # File Input
-            fileInput("file", label = "Select file to read into R", width = "80%")
+            fileInput("file", label = "Select file to read into R", width = "80%"),
+            textInput("name_dataset", label = "Give your dataset a name", width = "90%")
           ),
-          column(width = 6,
+          column(width = 8,
             strong(p("Further options (per filetype)", options = "align = top")),
             # Output for textlike files
             uiOutput("sep"), uiOutput("dec"), uiOutput("header"),
@@ -193,16 +194,24 @@ server <- shinyServer(function(input, output) {
     }
   })
   
-  # ------ AFTER PRESSING "done" ------ #
+  # ------ AFTER PRESSING "DONE" ------ #
   
-  # Close when pressing "done" button
+  # Do these things when pressing "done" button
   observeEvent(input$done, {
+    
+    # Assign the dataset to the global environment, 
+    # if name of dataset is specified
+    if (nzchar(input$name_dataset))
+      assign(input$name_dataset, value = dataset(), 
+             envir = .GlobalEnv)
+    
+    # ... and then stop the app
     stopApp()
   })
 })
 
-viewer <- dialogViewer(dialogName = "GREA", 
-                       height = 350, 
+viewer <- dialogViewer(dialogName = "GREA",
+                       height = 350,
                        width = 500)
 
 runGadget(ui, server, viewer = viewer)
