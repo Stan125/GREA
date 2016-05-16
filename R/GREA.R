@@ -87,7 +87,7 @@ GREA <- function() {
       # First try generating the dataset, if something goes wrong display error message
       validate(
         need(
-          try(data <- GREA_fun(fileloc(),
+          try(data <- GREA_read(fileloc(),
                                # Options for raw, csv, txt, asc, dat
                                header = input$option_header,
                                sep = input$option_sep, dec = input$option_dec,
