@@ -4,10 +4,9 @@ Title: Gotta Read 'Em All
 Version: 0.9.0
 Author: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
-Depends:
+Depends: shiny, miniUI
+Imports:
     rstudioapi,
-    shiny,
-    miniUI,
     foreign,
     readxl,
     R.matlab,

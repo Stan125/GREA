@@ -7,17 +7,10 @@
 #'
 #' Display's the GREA Add-In and assigns the right DF to the global environment after pressing "done"
 #' @export
+#' @import shiny
+#' @import miniUI
 #'
 GREA <- function() {
-
-  ## Preliminaries
-  library(shiny)
-  library(miniUI)
-  library(rstudioapi)
-  library(foreign)
-  library(readxl)
-  library(R.matlab)
-  library(DT)
 
   # Set max File size
   options(shiny.maxRequestSize = 500*1024^2)

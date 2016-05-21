@@ -26,11 +26,11 @@ GREA_read <- function(filelocation, header = FALSE, sep = "", dec = ".",
 
     # STATA: .dta
     if (filetype == "dta")
-      data <- read.dta(file = filelocation)
+      data <- foreign::read.dta(file = filelocation)
 
     # MATLAB: .mat
     else if (filetype == "mat")
-      data <- readMat(con = filelocation)
+      data <- R.matab::readMat(con = filelocation)
 
     # ------ Files with sep, header, dec, NA options ------ #
 
@@ -42,11 +42,11 @@ GREA_read <- function(filelocation, header = FALSE, sep = "", dec = ".",
 
     # SPSS: .sav
     else if (filetype == "sav")
-      data <- read.spss(file = filelocation, to.data.frame = into.dataframe)
+      data <- foreign::read.spss(file = filelocation, to.data.frame = into.dataframe)
 
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx")))
-      data <- read_excel(path = filelocation, sheet = sheetIndex)
+      data <- readxl::read_excel(path = filelocation, sheet = sheetIndex)
 
     # Give back DF
     return(data)
