@@ -29,7 +29,8 @@ GREA <- function() {
           fillRow(
             column(width = 8,
                    # File Input
-                   fileInput("file", label = "Select file to read into R", width = "80%"),
+                   textInput("file_path", "File Path", width="90%"),
+                   actionButton("file_button", "Select File", width="50%"),
                    textInput("name_dataset", label = "Give your dataset a name", width = "90%")
             ),
             column(width = 8,
@@ -52,22 +53,22 @@ GREA <- function() {
   )
 
 
-  server <- shinyServer(function(input, output) {
+  server <- shinyServer(function(input, output, session) {
+
+    # ------ select file on button click ------ #
+    observeEvent(input$file_button, {
+      fp <- tryCatch(file.choose(), error=function(err) {NULL})
+      if (!is.null(fp)) {
+        updateTextInput(session, "file_path", value = fp)
+      }
+    })
 
     # ------ REACTIVE FILE LOCATION MOVEMENT ------ #
 
     fileloc <- reactive({
-      if (!is.null(input$file)) {
-        # Store file
-        inFile <- input$file
-
-        # Rename file so it can be read
-        from <- inFile$datapath
-        to <- paste0(dirname(inFile$datapath), "/",inFile$name)
-        file.rename(from = from, to = to)
-
-        # Get new filelocation
-        to
+      fp <- input$file_path
+      if (!is.null(fp) || !file.exists(fp)) {
+        fp
       }
     })
 
