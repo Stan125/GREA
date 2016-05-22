@@ -28,10 +28,14 @@ GREA <- function() {
         miniContentPanel(
           fillRow(
             column(width = 8,
-                   # File Input
-                   textInput("file_path", "File Path", width = "90%"),
-                   actionButton("file_button", "Select File", width = "50%"),
-                   p(), # white space in UI
+                   # Output  '... selected'
+                   strong(textOutput("text_selected"), style = "color:green"),
+                   p(),
+                   # Action button to call fileChoose()
+                   actionButton("file_button", "Select File", width = "50%", icon("file"),
+                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+                   p(),
+                   # Name of Dataset
                    textInput("name_dataset", label = "Give your dataset a name", width = "90%")
             ),
             column(width = 8,
@@ -56,24 +60,14 @@ GREA <- function() {
 
   server <- shinyServer(function(input, output, session) {
 
-    # ------ SELECT FILE AND UPDATE TEXT INPUT ------ #
-    observeEvent(input$file_button, {
-      # If button is pressed, select file
-      fp <- fileChoose()
-
-      # If not NULL then update Text-Input
-      if (!is.null(fp))
-        updateTextInput(session, "file_path", value = fp)
-    })
-
-    # ------ REACTIVE FILE LOCATION DETERMINATION------ #
+    # ------ GETTING FILE LOCATION AFTER PRESSING BUTTON ------ #
     fileloc <- reactive({
       # If nothing happens, have NULL
       fp <- NULL
 
       # If button is pressed, assign the right file loc
       if (input$file_button)
-        fp <- input$file_path
+        fp <- fileChoose()
 
       # If the value is not NULL and the file actually exists, use it
       if (!is.null(fp) && file.exists(fp))
@@ -98,6 +92,16 @@ GREA <- function() {
         2. Outcome is not a df (for Excel and SPSS reader functions)")
       )
       data
+    })
+
+    # ------ TEXT: 'blabla.filetype' DETECTED ------ #
+
+    output$text_selected <- renderText({
+      if (!is.null(fileloc()))
+        # Paste file name after it is selected
+        paste0(basename(fileloc()), " selected")
+      else
+        paste0("Select your file!")
     })
 
     # ------ PREVIEW TABLE ------ #
@@ -171,21 +175,21 @@ GREA <- function() {
 
     # ------ HELPER STUFF ------ #
 
-    output$tableprint <- renderPrint({
-      if (!is.null(input$file)) {
-        inFile <- input$file
-
-        # Rename the filename to be the same as before
-        command1 <- paste0("mv ", inFile$datapath,
-                           " ",
-                           dirname(inFile$datapath), "/",inFile$name)
-        system(command1)
-
-        input$option_header
-        input$option_sep
-        input$option_dec
-      }
-    })
+    # output$tableprint <- renderPrint({
+    #   if (!is.null(input$file)) {
+    #     inFile <- input$file
+    #
+    #     # Rename the filename to be the same as before
+    #     command1 <- paste0("mv ", inFile$datapath,
+    #                        " ",
+    #                        dirname(inFile$datapath), "/",inFile$name)
+    #     system(command1)
+    #
+    #     input$option_header
+    #     input$option_sep
+    #     input$option_dec
+    #   }
+    # })
 
     # ------ AFTER PRESSING "DONE" ------ #
 

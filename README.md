@@ -9,7 +9,7 @@ Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is i
 
 ### News
 
-16.05.2015 - First version of GREA was wrapped up into a package
+16.05.2015 - First version of GREA was wrapped up into a package 22.05.2015 - `shiny::fileInput` dependency replaced with `fileChoose()` function
 
 ### Installation
 
