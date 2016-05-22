@@ -2,6 +2,7 @@
 
 export(GREA)
 export(GREA_read)
+export(fileChoose)
 export(obtain_filetype)
 import(miniUI)
 import(shiny)

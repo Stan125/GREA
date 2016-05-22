@@ -29,8 +29,9 @@ GREA <- function() {
           fillRow(
             column(width = 8,
                    # File Input
-                   textInput("file_path", "File Path", width="90%"),
-                   actionButton("file_button", "Select File", width="50%"),
+                   textInput("file_path", "File Path", width = "90%"),
+                   actionButton("file_button", "Select File", width = "50%"),
+                   p(), # white space in UI
                    textInput("name_dataset", label = "Give your dataset a name", width = "90%")
             ),
             column(width = 8,
@@ -55,21 +56,28 @@ GREA <- function() {
 
   server <- shinyServer(function(input, output, session) {
 
-    # ------ select file on button click ------ #
+    # ------ SELECT FILE AND UPDATE TEXT INPUT ------ #
     observeEvent(input$file_button, {
-      fp <- tryCatch(file.choose(), error=function(err) {NULL})
-      if (!is.null(fp)) {
+      # If button is pressed, select file
+      fp <- fileChoose()
+
+      # If not NULL then update Text-Input
+      if (!is.null(fp))
         updateTextInput(session, "file_path", value = fp)
-      }
     })
 
-    # ------ REACTIVE FILE LOCATION MOVEMENT ------ #
-
+    # ------ REACTIVE FILE LOCATION DETERMINATION------ #
     fileloc <- reactive({
-      fp <- input$file_path
-      if (!is.null(fp) || !file.exists(fp)) {
+      # If nothing happens, have NULL
+      fp <- NULL
+
+      # If button is pressed, assign the right file loc
+      if (input$file_button)
+        fp <- input$file_path
+
+      # If the value is not NULL and the file actually exists, use it
+      if (!is.null(fp) && file.exists(fp))
         fp
-      }
     })
 
     # ------ VALIDATION ------ #
