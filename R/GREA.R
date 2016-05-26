@@ -83,13 +83,14 @@ GREA <- function() {
       validate(
         need(
           try(data <- GREA_read(fileloc(),
-                               # Options for raw, csv, txt, asc, dat
-                               header = input$option_header,
-                               sep = input$option_sep, dec = input$option_dec,
-                               into.dataframe = input$option_todf,
-                               sheetIndex = input$option_sheetindex)
+                                # Options for raw, csv, txt, asc, dat
+                                header = input$option_header,
+                                sep = input$option_sep, dec = input$option_dec,
+                                into.dataframe = input$option_todf,
+                                sheetIndex = input$option_sheetindex)
           ), "        1. Wrong options for generating df, or\n
-        2. Outcome is not a df (for Excel and SPSS reader functions)")
+        2. Outcome is not a df (for Excel and SPSS reader functions)"
+       )
       )
       data
     })
@@ -124,8 +125,8 @@ GREA <- function() {
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
         selectInput(inputId = "option_sep",
                     label = "Select Separator",
-                    choices = c( "White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t",
-                                 "Dot" = ".", "Comma" = ","))
+                    choices = c("White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t",
+                                "Dot" = ".", "Comma" = ","))
     })
 
     # Render the UI button with dec selections, if dataset is selected
@@ -193,16 +194,31 @@ GREA <- function() {
 
     # ------ AFTER PRESSING "DONE" ------ #
 
-    # Do these things when pressing "done" button
     observeEvent(input$done, {
 
-      # Assign the dataset to the global environment,
-      # if name of dataset is specified
-      if (nzchar(input$name_dataset))
-        assign(input$name_dataset, value = dataset(),
-               envir = .GlobalEnv)
+      #### Task 1 ####
+      # Check if file is inside the working directory
+      file <- wd_check(fileloc())
 
+      # Paste Code into Console
+      if (nzchar(fileloc()) && nzchar(input$name_dataset)) {
+        code <- paste0(input$name_dataset, " <- ", GREA_read(filelocation = file, string = TRUE,
+                                                             header = input$option_header,
+                                                             sep = input$option_sep, dec = input$option_dec,
+                                                             into.dataframe = input$option_todf,
+                                                             sheetIndex = input$option_sheetindex))
+        # Paste text into console
+        rstudioapi::insertText(text = code, id = "#console")
+      }
+
+      #### Task 2 ####
       # ... and then stop the app
+      stopApp()
+    })
+
+    # ------ WHEN PRESSING "CANCEL" ------ #
+
+    observeEvent(input$cancel, {
       stopApp()
     })
   })
@@ -211,5 +227,5 @@ GREA <- function() {
                          height = 350,
                          width = 500)
 
-  runGadget(ui, server, viewer = viewer)
+  runGadget(ui, server, viewer = viewer, stopOnCancel = FALSE)
 }

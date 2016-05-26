@@ -11,8 +11,8 @@
 #' @export
 
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = "", dec = ".",
-                     into.dataframe = TRUE, sheetIndex = 1) {
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
+                     into.dataframe = TRUE, sheetIndex = 1, string = FALSE) {
 
   # Wrap TryCatch around to specify error messages
   tryCatch({
@@ -26,30 +26,34 @@ GREA_read <- function(filelocation, header = FALSE, sep = "", dec = ".",
 
     # STATA: .dta
     if (filetype == "dta")
-      data <- foreign::read.dta(file = filelocation)
+      expr <- paste0("foreign::read.dta(file = ", "'", filelocation, "')")
 
     # MATLAB: .mat
     else if (filetype == "mat")
-      data <- R.matab::readMat(con = filelocation)
+      expr <- paste0("R.matab::readMat(con = ", "'", filelocation, "'", ")")
 
     # ------ Files with sep, header, dec, NA options ------ #
 
     # raw, csv, txt, asc, dat
     else if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-      data <- read.table(file = filelocation, header = header, sep = sep, dec = dec)
+      expr <- paste0("read.table(file = ", "'", filelocation, "', ",
+                     "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
 
     # ------ Files with other options ------ #
 
     # SPSS: .sav
     else if (filetype == "sav")
-      data <- foreign::read.spss(file = filelocation, to.data.frame = into.dataframe)
+      expr <- paste0("foreign::read.spss(file = ", "'", filelocation, "', to.data.frame = ", into.dataframe, ")")
 
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx")))
-      data <- readxl::read_excel(path = filelocation, sheet = sheetIndex)
+      expr <- paste0("readxl::read_excel(path = ", "'", filelocation, "', ", "sheet = ", sheetIndex, ")")
 
     # Give back DF
-    return(data)
+    if (string == FALSE)
+      return(suppressWarnings(eval(parse(text = expr))))
+    else if (string == TRUE)
+      return(expr)
   },
 
   # ------ Files with other options ------ #
@@ -60,5 +64,6 @@ GREA_read <- function(filelocation, header = FALSE, sep = "", dec = ".",
   warning = function(war) {
     message("1. Wrong options for generating df, or")
     message("2. Outcome is not a df (for Excel and SPSS reader functions)")
-  })
+  }
+  )
 }
