@@ -30,7 +30,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
 
     # MATLAB: .mat
     else if (filetype == "mat")
-      expr <- paste0("R.matab::readMat(con = ", "'", filelocation, "'", ")")
+      expr <- paste0("R.matlab::readMat(con = ", "'", filelocation, "'", ")")
 
     # ------ Files with sep, header, dec, NA options ------ #
 
