@@ -2,6 +2,7 @@
 #'
 #' Function to determine if a file lies in a working directory.
 #' @return A file location. Gives the file location without the WD if the file is in the WD, but returns only the input file location if it doesn't.
+#' @export
 #' @examples
 #' wd_check("/Users/stani/GitHub/GREA/data/csv_food_supply.csv")
 

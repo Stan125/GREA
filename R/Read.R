@@ -20,7 +20,11 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     if (is.null(filelocation))
       return(NULL)
 
+    # Obtain filetype
     filetype <- obtain_filetype(filelocation)
+
+    # Fix the filelocation string (because of very annoying windows bug)
+    filelocation <- wd_checker(filelocation)
 
     # ------ Files without any options ------ #
 
