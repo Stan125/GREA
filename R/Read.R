@@ -24,7 +24,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     filetype <- obtain_filetype(filelocation)
 
     # Fix the filelocation string (because of very annoying windows bug)
-    filelocation <- wd_checker(filelocation)
+    filelocation <- wd_check(filelocation)
 
     # ------ Files without any options ------ #
 
@@ -58,7 +58,8 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
       return(suppressWarnings(eval(parse(text = expr))))
     else if (string == TRUE)
       return(expr)
-  },
+  }
+  ,
 
   # ------ Files with other options ------ #
   error = function(err) {
