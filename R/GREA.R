@@ -213,7 +213,7 @@ GREA <- function() {
 
       #### Task 2 ####
       # ... and then stop the app
-      stopApp(stop("User cancel"))
+      stopApp()
     })
 
     # ------ WHEN PRESSING "CANCEL" ------ #
