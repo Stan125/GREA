@@ -201,7 +201,7 @@ GREA <- function() {
       file <- wd_check(fileloc())
 
       # Paste Code into Console
-      if (nzchar(fileloc()) && nzchar(input$name_dataset)) {
+      if (nzchar(fileloc()) && nzchar(input$name_dataset) && !is.null(dataset())) {
         code <- paste0(input$name_dataset, " <- ", GREA_read(filelocation = file, string = TRUE,
                                                              header = input$option_header,
                                                              sep = input$option_sep, dec = input$option_dec,
@@ -213,7 +213,7 @@ GREA <- function() {
 
       #### Task 2 ####
       # ... and then stop the app
-      stopApp()
+      stopApp(stop("User cancel"))
     })
 
     # ------ WHEN PRESSING "CANCEL" ------ #
@@ -223,9 +223,10 @@ GREA <- function() {
     })
   })
 
+  app <- shinyApp(ui = ui, server = server)
   viewer <- dialogViewer(dialogName = "GREA",
                          height = 350,
                          width = 500)
 
-  runGadget(ui, server, viewer = viewer, stopOnCancel = FALSE)
+  runGadget(app, viewer = viewer, stopOnCancel = FALSE)
 }

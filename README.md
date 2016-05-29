@@ -3,7 +3,7 @@
 
 ### What is 'GREA'?
 
-GREA (Gotta Read 'Em All) is an RStudio Add-In assisting to read all popular file formats into R. In the beginning, the user selects a file on his computer. After proper parsing (which is done interactively), the proper function to read the file is pasted into the console, with an object name that can be specified by the user. Right now, the following files can be read: .dta, .sav, .mat, .raw, .csv, .txt, .asc, .dat, .xls, .xlsx.
+GREA (Gotta Read 'Em All) is an RStudio Add-In assisting to read all popular file formats into R. In the beginning, the user selects a file on his computer. After some adjustments (which are done interactively), the proper function to read the file is pasted into the console, with an object name that can be specified by the user. Right now, the following files can be read: .dta, .sav, .mat, .raw, .csv, .txt, .asc, .dat, .xls, .xlsx.
 
 Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is important.
 
