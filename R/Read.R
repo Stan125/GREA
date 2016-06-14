@@ -1,6 +1,6 @@
 #' Read Data Wrapper
 #'
-#' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
+#' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in
 #' @param filelocation A single string with the location and name of the file, e.g. "data/bla.csv"
 #' @param header Should the header be read in?
 #' @param sep
@@ -8,6 +8,7 @@
 #' @param into.dataframe
 #' @param sheetIndex
 #' @return A dataframe, containing the read-in data
+#' @importFrom tools file_ext
 #' @export
 
 ## Function: GREA_read
@@ -21,7 +22,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
       return(NULL)
 
     # Obtain filetype
-    filetype <- obtain_filetype(filelocation)
+    filetype <- tools::file_ext(filelocation)
 
     # Fix the filelocation string (because of very annoying windows bug)
     filelocation <- wd_check(filelocation)

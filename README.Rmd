@@ -56,7 +56,7 @@ The previews tab shows a preview of what your dataframe would look like if you p
 ![Step 2.](step2.png)
 
 #### 3. Adjusting stuff
-If the preview of your dataframe looked off, you now have the chance to adjust some parameters (e.g. Sheet Index for Excel files, or separator for .csv files). Adjust them so your preview looks exactly like you want them to. When you are finished and typed in a name for your newly aquired dataset, press "done". Afterwards, the function to read your dataset is pasted into your R console. Boom! You're good to go.
+If the preview of your dataframe looked off, you now have the chance to adjust some parameters (e.g. Sheet Index for Excel files, or separator for .csv files). Adjust them so your preview looks exactly like you want them to. When you are finished and typed in a name for your newly aquired dataset, press "done". Afterwards, the function to read your dataset is pasted into your console. Boom! You're good to go.
 
 ### Code of Conduct
 

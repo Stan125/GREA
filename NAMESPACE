@@ -3,7 +3,7 @@
 export(GREA)
 export(GREA_read)
 export(fileChoose)
-export(obtain_filetype)
 export(wd_check)
 import(miniUI)
 import(shiny)
+importFrom(tools,file_ext)

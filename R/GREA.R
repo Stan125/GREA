@@ -9,8 +9,12 @@
 #' @export
 #' @import shiny
 #' @import miniUI
+#' @importFrom tools file_ext
 #'
 GREA <- function() {
+
+  # Set max File size
+  options(shiny.maxRequestSize = 500*1024^2)
 
   ui <- miniPage(
     # Title Bar
@@ -116,7 +120,7 @@ GREA <- function() {
     # Render the UI button with sep selections, if dataset is selected
     output$sep <- renderUI({
       # Get filetype
-      filetype <- obtain_filetype(fileloc())
+      filetype <- tools::file_ext(fileloc())
 
       # Render UI if a certain filetype is selected
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
@@ -129,7 +133,7 @@ GREA <- function() {
     # Render the UI button with dec selections, if dataset is selected
     output$dec <- renderUI({
       # Get filetype
-      filetype <- obtain_filetype(fileloc())
+      filetype <- tools::file_ext(fileloc())
 
       # Render UI if a certain filetype is selected
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
@@ -141,7 +145,7 @@ GREA <- function() {
     # Render the UI button with the option to get a header
     output$header <- renderUI({
       # Get filetype
-      filetype <- obtain_filetype(fileloc())
+      filetype <- tools::file_ext(fileloc())
 
       # Render UI if a certain filetype is selected
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
@@ -151,7 +155,7 @@ GREA <- function() {
     # Render the "to dataframe" button
     output$todf_button <- renderUI({
       # Get filetype
-      filetype <- obtain_filetype(fileloc())
+      filetype <- tools::file_ext(fileloc())
 
       # Render UI if a certain filetype is selected
       if (any(filetype == "sav"))
@@ -163,7 +167,7 @@ GREA <- function() {
     output$sheet_field <- renderUI({
 
       # Get filetype
-      filetype <- obtain_filetype(fileloc())
+      filetype <- tools::file_ext(fileloc())
 
       # Render UI if a certain filetype is selected
       if (any(filetype == c("xlsx", "xls")))
@@ -210,13 +214,13 @@ GREA <- function() {
 
       #### Task 2 ####
       # ... and then stop the app
-      invisible(stopApp())
+      stopApp()
     })
 
     # ------ WHEN PRESSING "CANCEL" ------ #
 
     observeEvent(input$cancel, {
-      invisible(stopApp())
+      stopApp()
     })
   })
 

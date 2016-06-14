@@ -16,6 +16,6 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 A dataframe, containing the read-in data
 }
 \description{
-Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
+Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in
 }
 
