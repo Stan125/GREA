@@ -1,42 +1,74 @@
 #' Read Data Wrapper
 #'
-#' Reads data in any of the formats supported by \code{\link[rio]{import}}.
-#' @param filelocation A single character string with the location and name of the file, e.g. \dQuote{data/bla.csv}.
-#' @param sheetIndex An integer specifying which sheet to import from an Excel or ODS spreadsheet file.
-#' @param sep A character string specifying a column separator for delimited files.
-#' @param dec A character string specifying a decimal separator for delimited files.
-#' @param header A logical indicating whether a delimited file contains a header row.
-#' @return A dataframe, containing the read-in data.
-#' @importFrom tools file_ext
-#' @importFrom rio import
-#' @importFrom R.matlab readMat
+#' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
+#' @param filelocation A single string with the location and name of the file, e.g. "data/bla.csv"
+#' @param header Should the header be read in?
+#' @param sep
+#' @param dec
+#' @param into.dataframe
+#' @param sheetIndex
+#' @return A dataframe, containing the read-in data
 #' @export
 
-GREA_read <- function(filelocation, sheetIndex = 1L, sep, dec = "auto", header) {
-    if (is.null(filelocation) || filelocation == "") {
-      return("")
-    }
-    filetype <- file_ext(filelocation)
-    arg <- NULL
-    if (tolower(filetype) == "mat") {
-        cmd <- paste0("R.matlab::readMat(con = '", filelocation, "'")
-    } else {
-        if (tolower(filetype) %in% c("raw", "asc", "dat")) {
-            arg <- paste0(arg, ", format = 'txt'")
-        }
-        if (!missing(sep) && sep != "auto") {
-            arg <- paste0(arg, ", sep = '", sep,"'")
-        }
-        if (!missing(dec) && dec != "auto") {
-            arg <- paste0(arg, ", sep2 = '", dec,"'")
-        }
-        if (!missing(header)) {
-            arg <- paste0(arg, ", header = ", header)
-        }
-        if (tolower(filetype) %in% c("xls", "xlsx")) {
-            arg <- paste0(arg, ", which = ", sheetIndex)
-        }
-        cmd <- paste0("rio::import('", filelocation, "'", arg, ")")
-    }
-    structure(eval(parse(text = cmd)), GREAcommand = cmd)
+## Function: GREA_read
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
+                     into.dataframe = TRUE, sheetIndex = 1, string = FALSE) {
+
+  # Wrap TryCatch around to specify error messages
+  tryCatch({
+
+    if (is.null(filelocation))
+      return(NULL)
+
+    # Obtain filetype
+    filetype <- obtain_filetype(filelocation)
+
+    # Fix the filelocation string (because of very annoying windows bug)
+    filelocation <- wd_check(filelocation)
+
+    # ------ Files without any options ------ #
+
+    # STATA: .dta
+    if (filetype == "dta")
+      expr <- paste0("foreign::read.dta(file = ", "'", filelocation, "')")
+
+    # MATLAB: .mat
+    else if (filetype == "mat")
+      expr <- paste0("R.matlab::readMat(con = ", "'", filelocation, "'", ")")
+
+    # ------ Files with sep, header, dec, NA options ------ #
+
+    # raw, csv, txt, asc, dat
+    else if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+      expr <- paste0("read.table(file = ", "'", filelocation, "', ",
+                     "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
+
+    # ------ Files with other options ------ #
+
+    # SPSS: .sav
+    else if (filetype == "sav")
+      expr <- paste0("foreign::read.spss(file = ", "'", filelocation, "', to.data.frame = ", into.dataframe, ")")
+
+    # Excel: .xls, .xlsx
+    else if (any(filetype == c("xls", "xlsx")))
+      expr <- paste0("readxl::read_excel(path = ", "'", filelocation, "', ", "sheet = ", sheetIndex, ")")
+
+    # Give back DF
+    if (string == FALSE)
+      return(suppressWarnings(eval(parse(text = expr))))
+    else if (string == TRUE)
+      return(expr)
+  }
+  ,
+
+  # ------ Files with other options ------ #
+  error = function(err) {
+    message("1. Wrong options for generating df, or")
+    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
+  },
+  warning = function(war) {
+    message("1. Wrong options for generating df, or")
+    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
+  }
+  )
 }

@@ -6,11 +6,8 @@
 \usage{
 wd_check(filelocation)
 }
-\arguments{
-\item{filelocation}{A character string specifying a file location.}
-}
 \value{
-A file location. Gives the file location without the working directory if the file is in it, but returns the full path if not.
+A file location. Gives the file location without the WD if the file is in the WD, but returns only the input file location if it doesn't.
 }
 \description{
 Function to determine if a file lies in a working directory.

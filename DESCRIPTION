@@ -2,15 +2,16 @@ Package: GREA
 Type: Package
 Title: Gotta Read 'Em All
 Version: 0.9.0
-Authors@R: c(person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb")),
-             person("Thomas", "Leeper", email = "thosjleeper@gmail.com", role = "ctb"))
+Author: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
+Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: shiny, miniUI
 Imports:
     rstudioapi,
-    rio,
+    foreign,
+    readxl,
     R.matlab,
     DT
-Description: RStudio Add-In to interactively read ALL the data into R using rio.
+Description: RStudio Add-In to interactively read ALL the data into R
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1

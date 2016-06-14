@@ -4,23 +4,18 @@
 \alias{GREA_read}
 \title{Read Data Wrapper}
 \usage{
-GREA_read(filelocation, sheetIndex = 1L, sep, dec = "auto", header)
+GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
+  into.dataframe = TRUE, sheetIndex = 1, string = FALSE)
 }
 \arguments{
-\item{filelocation}{A single character string with the location and name of the file, e.g. \dQuote{data/bla.csv}.}
+\item{filelocation}{A single string with the location and name of the file, e.g. "data/bla.csv"}
 
-\item{sheetIndex}{An integer specifying which sheet to import from an Excel or ODS spreadsheet file.}
-
-\item{sep}{A character string specifying a column separator for delimited files.}
-
-\item{dec}{A character string specifying a decimal separator for delimited files.}
-
-\item{header}{A logical indicating whether a delimited file contains a header row.}
+\item{header}{Should the header be read in?}
 }
 \value{
-A dataframe, containing the read-in data.
+A dataframe, containing the read-in data
 }
 \description{
-Reads data in any of the formats supported by \code{\link[rio]{import}}.
+Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
 }
 

@@ -1,20 +1,29 @@
 #' File-in-Working Directory checker
 #'
 #' Function to determine if a file lies in a working directory.
-#' @param filelocation A character string specifying a file location.
-#' @return A file location. Gives the file location without the working directory if the file is in it, but returns the full path if not.
+#' @return A file location. Gives the file location without the WD if the file is in the WD, but returns only the input file location if it doesn't.
 #' @export
 #' @examples
 #' wd_check("/Users/stani/GitHub/GREA/data/csv_food_supply.csv")
 
 wd_check <- function(filelocation) {
-  if (is.null(filelocation) || filelocation == "") {
-    return("")
+  # deconstruct file path depending on platform
+  if (grepl("[\\]", filelocation)) {
+    file_split <- unlist(strsplit(filelocation, "[\\]"))
+    wd_split <- unlist(strsplit(getwd(), "[\\]"))
+  } else if (grepl("/", filelocation)) {
+    file_split <- unlist(strsplit(filelocation, "/"))
+    wd_split <- unlist(strsplit(getwd(), "/"))
   }
-  file <- normalizePath(filelocation, winslash = "/", mustWork = FALSE)
-  if (identical(dirname(file), getwd())) {
-    gsub("\\\\", "/", basename(filelocation))
+
+  # Return filepaths depending on whether the file is in the WD
+  if (all(wd_split %in% file_split)) {
+    # Return filepath without WD
+    file_in_wd <- file_split[seq(length(wd_split) + 1, length(file_split))]
+    file_in_wd <- do.call("file.path", as.list(file_in_wd))
+    return(file_in_wd)
   } else {
-    gsub("\\\\", "/", filelocation)
+    file <- do.call("file.path", as.list(file_split))
+    return(file)
   }
 }
