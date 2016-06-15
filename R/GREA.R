@@ -41,10 +41,8 @@ GREA <- function() {
             ),
             column(width = 8,
                    strong(p("Further options (per filetype)", options = "align = top")),
-                   # Output for textlike files
-                   uiOutput("sep"), uiOutput("dec"), uiOutput("header"),
-                   # Output for xls, sav
-                   uiOutput("todf_button"), uiOutput("sheet_field")
+                   # Output for options
+                   uiOutput("options")
             )
           ))),
 
@@ -53,7 +51,6 @@ GREA <- function() {
         "Preview", icon = icon("table"),
         miniContentPanel(
           DT::dataTableOutput("preview")
-          #textOutput("tableprint")
         ))
     )
   )
@@ -117,81 +114,50 @@ GREA <- function() {
 
     # ------ INTERACTIVE UI ------ #
 
-    # Render the UI button with sep selections, if dataset is selected
-    output$sep <- renderUI({
+    observeEvent(input$file_button, {
+
       # Get filetype
       filetype <- tools::file_ext(fileloc())
 
-      # Render UI if a certain filetype is selected
+      # Render text file UI
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-        selectInput(inputId = "option_sep",
-                    label = "Select Separator",
-                    choices = c("White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t",
-                                "Dot" = ".", "Comma" = ","))
+        output$options <- renderUI({
+          list(
+            # Column Separator Option
+            selectInput(inputId = "option_sep",
+                        label = "Select Separator",
+                        choices = c("White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t",
+                                    "Dot" = ".", "Comma" = ",")),
+
+            # Decimal Separator Option
+            selectInput(inputId = "option_dec",
+                        label = "Select Decimal Mark",
+                        choices = c("Dot" = ".", "Comma" = ",")),
+
+            # Header option
+            checkboxInput(inputId = "option_header", label = "Display header")
+          )
+        })
+
+      # SPSS Options
+      else if (any(filetype == "sav"))
+        output$options <- renderUI({
+          checkboxInput(inputId = "option_todf", label = "Into Dataframe?",
+                        value = TRUE)
+        })
+
+      # Excel Options
+      else if (any(filetype == c("xls", "xlsx")))
+        output$options <- renderUI({
+          numericInput(inputId = "option_sheetindex", label = "Select Excel Sheet Index",
+                       value = 1)
+        })
+
+      # Else nothing
+      else
+        output$options <- renderUI({ p("") })
+
     })
-
-    # Render the UI button with dec selections, if dataset is selected
-    output$dec <- renderUI({
-      # Get filetype
-      filetype <- tools::file_ext(fileloc())
-
-      # Render UI if a certain filetype is selected
-      if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-        selectInput(inputId = "option_dec",
-                    label = "Select Decimal Mark",
-                    choices = c("Dot" = ".", "Comma" = ","))
-    })
-
-    # Render the UI button with the option to get a header
-    output$header <- renderUI({
-      # Get filetype
-      filetype <- tools::file_ext(fileloc())
-
-      # Render UI if a certain filetype is selected
-      if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-        checkboxInput(inputId = "option_header", label = "Display header")
-    })
-
-    # Render the "to dataframe" button
-    output$todf_button <- renderUI({
-      # Get filetype
-      filetype <- tools::file_ext(fileloc())
-
-      # Render UI if a certain filetype is selected
-      if (any(filetype == "sav"))
-        checkboxInput(inputId = "option_todf", label = "Into Dataframe?",
-                      value = TRUE)
-    })
-
-    # Render the "sheetIndex" field
-    output$sheet_field <- renderUI({
-
-      # Get filetype
-      filetype <- tools::file_ext(fileloc())
-
-      # Render UI if a certain filetype is selected
-      if (any(filetype == c("xlsx", "xls")))
-        numericInput(inputId = "option_sheetindex", label = "Select Excel Sheet Index",
-                     value = 1)
-    })
-
-    # ------ HELPER STUFF ------ #
-
-    # output$tableprint <- renderPrint({
-    #   if (!is.null(input$file)) {
-    #     inFile <- input$file
-    #
-    #     # Rename the filename to be the same as before
-    #     command1 <- paste0("mv ", inFile$datapath,
-    #                        " ",
-    #                        dirname(inFile$datapath), "/",inFile$name)
-    #     system(command1)
-    #
-    #     input$option_header
-    #     input$option_sep
-    #     input$option_dec
-    #   }
-    # })
 
     # ------ AFTER PRESSING "DONE" ------ #
 
