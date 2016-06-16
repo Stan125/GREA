@@ -81,7 +81,6 @@ GREA <- function() {
                                 # Options for raw, csv, txt, asc, dat
                                 header = input$option_header,
                                 sep = input$option_sep, dec = input$option_dec,
-                                into.dataframe = input$option_todf,
                                 sheetIndex = input$option_sheetindex)
           ), "        1. Wrong options for generating df, or\n
         2. Outcome is not a df (for Excel and SPSS reader functions)"
@@ -136,13 +135,6 @@ GREA <- function() {
           )
         })
 
-      # SPSS Options
-      else if (any(filetype == "sav"))
-        output$options <- renderUI({
-          checkboxInput(inputId = "option_todf", label = "Into Dataframe?",
-                        value = TRUE)
-        })
-
       # Excel Options
       else if (any(filetype == c("xls", "xlsx")))
         output$options <- renderUI({
@@ -169,7 +161,6 @@ GREA <- function() {
         code <- paste0(input$name_dataset, " <- ", GREA_read(filelocation = file, string = TRUE,
                                                              header = input$option_header,
                                                              sep = input$option_sep, dec = input$option_dec,
-                                                             into.dataframe = input$option_todf,
                                                              sheetIndex = input$option_sheetindex))
         # Paste text into console
         rstudioapi::insertText(text = code, id = "#console")

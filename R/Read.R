@@ -5,7 +5,6 @@
 #' @param header Should the header be read in?
 #' @param sep
 #' @param dec
-#' @param into.dataframe
 #' @param sheetIndex
 #' @return A dataframe, containing the read-in data
 #' @importFrom tools file_ext
@@ -13,7 +12,7 @@
 
 ## Function: GREA_read
 GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
-                     into.dataframe = TRUE, sheetIndex = 1, string = FALSE) {
+                      sheetIndex = 1, string = FALSE) {
 
   # Wrap TryCatch around to specify error messages
   tryCatch({
@@ -34,13 +33,13 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
       expr <- paste0("read.table(file = ", "'", filelocation, "', ",
                      "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
 
-    # ------ Non-Text files with options ------ #
+    # ------ Non-Text files with "which" options ------ #
 
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx")))
       expr <- paste0("rio::import(file = ", "'", filelocation, "', ", "which = ", sheetIndex, ")")
 
-    # ------ Matlab Files ------ #
+    # ------ Files unknown to rio ------ #
 
     # MATLAB: .mat
     else if (filetype == "mat")

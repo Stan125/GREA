@@ -5,7 +5,7 @@
 \title{Read Data Wrapper}
 \usage{
 GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
-  into.dataframe = TRUE, sheetIndex = 1, string = FALSE)
+  sheetIndex = 1, string = FALSE)
 }
 \arguments{
 \item{filelocation}{A single string with the location and name of the file, e.g. "data/bla.csv"}
