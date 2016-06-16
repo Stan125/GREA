@@ -21,13 +21,13 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     if (is.null(filelocation))
       return(NULL)
 
-    # Obtain filetype
-    filetype <- tools::file_ext(filelocation)
+    # Obtain filetype, add tolerance for big extensions
+    filetype <- tolower(file_ext(filelocation))
 
     # Fix the filelocation string (because of very annoying windows bug)
     filelocation <- wd_check(filelocation)
 
-    # ------ Files without any options ------ #
+    # 1/3 ------ Files without any options ------ #
 
     # STATA: .dta
     if (filetype == "dta")
@@ -37,14 +37,14 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     else if (filetype == "mat")
       expr <- paste0("R.matlab::readMat(con = ", "'", filelocation, "'", ")")
 
-    # ------ Files with sep, header, dec, NA options ------ #
+    # 2/3 ------ Files with sep, header, dec, NA options ------ #
 
     # raw, csv, txt, asc, dat
     else if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
       expr <- paste0("read.table(file = ", "'", filelocation, "', ",
                      "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
 
-    # ------ Files with other options ------ #
+    # 3/3 ------ Files with other options ------ #
 
     # SPSS: .sav
     else if (filetype == "sav")
@@ -53,6 +53,8 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx")))
       expr <- paste0("readxl::read_excel(path = ", "'", filelocation, "', ", "sheet = ", sheetIndex, ")")
+
+    # 3/3 ------  ------ #
 
     # Give back DF
     if (string == FALSE)
