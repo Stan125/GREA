@@ -27,38 +27,33 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # Fix the filelocation string (because of very annoying windows bug)
     filelocation <- wd_check(filelocation)
 
-    # 1/3 ------ Files without any options ------ #
+    # ------ Text-like Files with options ------ #
 
-    # STATA: .dta
-    if (filetype == "dta")
-      expr <- paste0("foreign::read.dta(file = ", "'", filelocation, "')")
+    # raw, csv, txt, asc, dat
+    if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+      expr <- paste0("read.table(file = ", "'", filelocation, "', ",
+                     "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
+
+    # ------ Non-Text files with options ------ #
+
+    # Excel: .xls, .xlsx
+    else if (any(filetype == c("xls", "xlsx")))
+      expr <- paste0("rio::import(file = ", "'", filelocation, "', ", "which = ", sheetIndex, ")")
+
+    # ------ Matlab Files ------ #
 
     # MATLAB: .mat
     else if (filetype == "mat")
       expr <- paste0("R.matlab::readMat(con = ", "'", filelocation, "'", ")")
 
-    # 2/3 ------ Files with sep, header, dec, NA options ------ #
+    # ------ Non-Text files without options ------ #
 
-    # raw, csv, txt, asc, dat
-    else if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-      expr <- paste0("read.table(file = ", "'", filelocation, "', ",
-                     "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
-
-    # 3/3 ------ Files with other options ------ #
-
-    # SPSS: .sav
-    else if (filetype == "sav")
-      expr <- paste0("foreign::read.spss(file = ", "'", filelocation, "', to.data.frame = ", into.dataframe, ")")
-
-    # Excel: .xls, .xlsx
-    else if (any(filetype == c("xls", "xlsx")))
-      expr <- paste0("readxl::read_excel(path = ", "'", filelocation, "', ", "sheet = ", sheetIndex, ")")
-
-    # 3/3 ------  ------ #
+    else
+      expr <- paste0("rio::import(", "'", filelocation, "')")
 
     # Give back DF
     if (string == FALSE)
-      return(suppressWarnings(eval(parse(text = expr))))
+      return(structure(eval(parse(text = expr)), GREAcommand = expr))
     else if (string == TRUE)
       return(expr)
   }

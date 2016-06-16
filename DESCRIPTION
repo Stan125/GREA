@@ -2,13 +2,12 @@ Package: GREA
 Type: Package
 Title: Gotta Read 'Em All
 Version: 0.9.0
-Author: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
+Authors@R: c(person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb")), person("Thomas", "Leeper", email = "thosjleeper@gmail.com", role = "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: shiny, miniUI
 Imports:
     rstudioapi,
-    foreign,
-    readxl,
+    rio,
     R.matlab,
     DT
 Description: RStudio Add-In to interactively read ALL the data into R
