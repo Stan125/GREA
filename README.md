@@ -3,7 +3,7 @@
 
 ### What is 'GREA'?
 
-GREA (Gotta Read 'Em All) is an RStudio Add-In assisting to read all popular file formats into R. In the beginning, the user selects a file on his computer. After some adjustments (which are done interactively), the proper function to read the file is pasted into the console, with an object name that can be specified by the user. Right now, the following files can be read: .dta, .sav, .mat, .raw, .csv, .txt, .asc, .dat, .xls, .xlsx.
+GREA (Gotta Read 'Em All) is an RStudio Add-In assisting to read all popular file formats into R through R base functions and [rio](https://cran.r-project.org/web/packages/rio/README.html). In the beginning, the user selects a file on his computer. After some optional adjustments (which are done interactively), the proper function to read the file is pasted into the console, with an object name that can be specified by the user. Supported file formats include Stata (.dta), SPSS (.sav), Matlab (.mat), Excel (.xls, .xlsx) and various text/delimited-formats (.raw, .csv, .txt, .asc, .dat, etc.).
 
 Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is important.
 
@@ -31,19 +31,19 @@ Calling the Add-In is simple: just click on the Add-In Tab and select 'Gotta Rea
 
 #### 1. Selecting the dataset
 
-Once the Add-In is started up, press the "Select File" button to select a file on your computer. Then, type in a name for your desired dataset. Once the file is loaded into the Add-In, you may see additional options for parsing the file on the right. Ignore those for now and head right to the "previews" tab.
+Once the Add-In is started up, press the "Select File" button to select a file on your computer. Then, you can specify a name for your dataset (if blank, the filename, without extension, is used). Once the file is loaded into the Add-In, you may see additional options for parsing the file. Ignore those for now and head right to the "Preview" tab.
 
 ![Step 1.](step1.png)
 
 #### 2. Looking at the preview
 
-The previews tab shows a preview of what your dataframe would look like if you parsed it with the current settings. If something looks odd (e.g. your column names fell into the first row of the dataset), head back to the first tab. If everything is right, still head back to the first tab.
+The preview tab shows a preview of what your dataframe would look like if you parsed it with the current settings. If something looks odd (e.g. your column names fell into the first row of the dataset), head back to the first tab. If everything is right, still head back to the first tab.
 
 ![Step 2.](step2.png)
 
 #### 3. Adjusting stuff
 
-If the preview of your dataframe looked off, you now have the chance to adjust some parameters (e.g. Sheet Index for Excel files, or separator for .csv files). Adjust them so your preview looks exactly like you want them to. When you are finished and typed in a name for your newly aquired dataset, press "done". Afterwards, the function to read your dataset is pasted into your console. Boom! You're good to go.
+If the preview of your dataframe looked off, you now have the chance to adjust some parameters (e.g. Sheet Index for Excel files, or separator for delimited files). Adjust them so your preview looks exactly like you want them to. When you are finished (and have typed in a name for your newly aquired dataset), press "done". Afterwards, the function to read your dataset is pasted into your console. Boom! You're good to go.
 
 ### Code of Conduct
 
