@@ -13,9 +13,6 @@
 #'
 GREA <- function() {
 
-  # Set max File size
-  options(shiny.maxRequestSize = 500*1024^2)
-
   ui <- miniPage(
     # Title Bar
     gadgetTitleBar(title = "Gotta Read 'Em All"),
