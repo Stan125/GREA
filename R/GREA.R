@@ -33,7 +33,7 @@ GREA <- function() {
                    actionButton("file_button", "Select File", width = "50%", icon("file"),
                                 style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
                    p(),
-                   # Name of Dataset
+                   # Name of Dataset (optional)
                    textInput("name_dataset", label = "Give your dataset a name", width = "90%")
             ),
             column(width = 8,
@@ -55,7 +55,7 @@ GREA <- function() {
 
   server <- shinyServer(function(input, output, session) {
 
-    # ------ GETTING FILE LOCATION AFTER PRESSING BUTTON ------ #
+    # ------ OBTAIN FILE LOC ------ #
     fileloc <- reactive({
       # If nothing happens, have NULL
       fp <- NULL
@@ -64,9 +64,18 @@ GREA <- function() {
       if (input$file_button)
         fp <- fileChoose()
 
-      # If the value is not NULL and the file actually exists, use it
+      # If the value is not NULL and exists, use it
       if (!is.null(fp) && file.exists(fp))
         fp
+
+    })
+
+    # ------ UPDATE DATASET NAME ------ #
+
+    observeEvent(input$file_button, {
+      if (!is.null(fileloc()))
+        # Change Text Input to file name
+        updateTextInput(session, "name_dataset", value = tools::file_path_sans_ext(basename(fileloc())))
     })
 
     # ------ VALIDATION ------ #
