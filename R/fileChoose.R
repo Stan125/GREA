@@ -5,10 +5,11 @@
 #' @export
 
 fileChoose <- function(...) {
-  pathname <- NULL;
+  pathname <- NULL
   tryCatch({
-    pathname <- file.choose();
+    pathname <- file.choose()
   }, error = function(ex) {
+    ""
   })
   pathname
 }
