@@ -33,6 +33,9 @@ Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is i
 26.05.2015
 - Big structural revamp: Add-In now pastes the proper function to parse the file right into the console!
 
+18.06.2015
+- Now relies heavily on [rio](https://cran.r-project.org/web/packages/rio/README.html), therefore supporting way more filetypes. 
+
 ### Installation
 
 To install the Add-In, run the following code:
