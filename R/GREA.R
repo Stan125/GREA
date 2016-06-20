@@ -167,11 +167,14 @@ GREA <- function() {
 
       # Paste Code into Console
       if (nzchar(fileloc()) && nzchar(input$name_dataset) && !is.null(dataset())) {
-        code <- paste0(input$name_dataset, " <- ", GREA_read(filelocation = file, string = TRUE,
-                                                             header = input$option_header,
-                                                             sep = input$option_sep, dec = input$option_dec,
-                                                             sheetIndex = input$option_sheetindex))
-        # Paste text into console
+
+        # Get code that was used to read dataset
+        expr <- attributes(dataset())$GREAcommand
+
+        # Assemble code
+        code <- paste0(input$name_dataset, " <- ", expr)
+
+        # Paste into Console
         rstudioapi::insertText(text = code, id = "#console")
       }
 

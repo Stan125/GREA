@@ -50,11 +50,8 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     else
       expr <- paste0("rio::import(", "'", filelocation, "')")
 
-    # Give back DF
-    if (string == FALSE)
+    # Give back DF and attach command to it
       return(structure(eval(parse(text = expr)), GREAcommand = expr))
-    else if (string == TRUE)
-      return(expr)
   }
   ,
 
