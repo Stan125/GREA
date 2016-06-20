@@ -1,7 +1,7 @@
 #' File-in-Working Directory checker
 #'
 #' Function to determine if a file lies in a working directory.
-#' @param A character string specifying a file location
+#' @param filelocation A character string specifying a file location.
 #' @return A file location. Gives the file location without the working directory if the file is in it (also can be a subfolder), but returns the full path if not.
 #' @export
 #' @examples
