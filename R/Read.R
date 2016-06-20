@@ -1,12 +1,12 @@
 #' Read Data Wrapper
 #'
 #' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in
-#' @param filelocation A single string with the location and name of the file, e.g. "data/bla.csv"
-#' @param header Should the header be read in?
-#' @param sep
-#' @param dec
-#' @param sheetIndex
-#' @return A dataframe, containing the read-in data
+#' @param filelocation A single string with the location and name of the file, e.g. \dQuote{data/blabla.csv}
+#' @param header A logical indicating whether a text-delimited file contains a header row.
+#' @param sep A character string specifying a column separator.
+#' @param dec A character string specifying a decimal separator.
+#' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats)
+#' @return A dataframe, containing the read-in data.
 #' @importFrom tools file_ext
 #' @export
 
