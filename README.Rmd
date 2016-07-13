@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 ![](logo.png)
   		  
-GREA (Gotta Read 'Em All)
+GREA
 ==============
 [![Build Status](https://travis-ci.org/Stan125/GREA.svg?branch=master)](https://travis-ci.org/Stan125/GREA)
 

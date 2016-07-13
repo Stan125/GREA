@@ -1,8 +1,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 ![](logo.png)
 
-GREA (Gotta Read 'Em All)
-=========================
+GREA
+====
 
 [![Build Status](https://travis-ci.org/Stan125/GREA.svg?branch=master)](https://travis-ci.org/Stan125/GREA)
 
