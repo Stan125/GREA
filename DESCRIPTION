@@ -10,7 +10,7 @@ Imports:
     rio,
     R.matlab,
     DT
-Description: RStudio Add-In to interactively read ALL the data into R
+Description: RStudio Add-In to interactively read ALL the data into R.
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1

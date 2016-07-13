@@ -4,7 +4,7 @@
 \alias{fileChoose}
 \title{Better File Chooser}
 \usage{
-fileChoose(...)
+fileChoose()
 }
 \value{
 The location of the file

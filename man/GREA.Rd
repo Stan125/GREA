@@ -7,6 +7,6 @@
 GREA()
 }
 \description{
-Display's the GREA Add-In and assigns the right DF to the global environment after pressing "done"
+Display's the GREA Add-In and assigns the right DF to the global environment after pressing "done".
 }
 

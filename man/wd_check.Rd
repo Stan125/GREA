@@ -7,7 +7,7 @@
 wd_check(filelocation)
 }
 \arguments{
-\item{A}{character string specifying a file location}
+\item{filelocation}{A character string specifying a file location.}
 }
 \value{
 A file location. Gives the file location without the working directory if the file is in it (also can be a subfolder), but returns the full path if not.
