@@ -4,7 +4,7 @@
 #' @return The location of the file
 #' @export
 
-fileChoose <- function(...) {
+fileChoose <- function() {
   pathname <- NULL
   tryCatch({
     pathname <- file.choose()

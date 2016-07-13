@@ -12,7 +12,7 @@
 
 ## Function: GREA_read
 GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
-                      sheetIndex = 1, string = FALSE) {
+                      sheetIndex = 1) {
 
   # Wrap TryCatch around to specify error messages
   tryCatch({
