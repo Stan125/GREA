@@ -15,8 +15,10 @@ knitr::opts_chunk$set(
 ```
 
 ![](logo.png)
-
-### What is 'GREA'?
+  		  
+GREA (Gotta Read 'Em All)
+==============
+[![Build Status](https://travis-ci.org/Stan125/GREA.svg?branch=master)](https://travis-ci.org/Stan125/GREA)
 
 GREA (Gotta Read 'Em All) is an RStudio Add-In assisting to read all popular file formats into R through R base functions and [rio](https://cran.r-project.org/web/packages/rio/README.html). In the beginning, the user selects a file on his computer. After some optional adjustments (which are done interactively), the proper function to read the file is pasted into the console, with an object name that can be specified by the user. Supported file formats include Stata (.dta), SPSS (.sav), Matlab (.mat), Excel (.xls, .xlsx) and various text/delimited-formats (.raw, .csv, .txt, .asc, .dat, etc.).
 
