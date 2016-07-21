@@ -1,9 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-testdata
-.travis.yml
-CONDUCT.md
-README.Rmd
-logo.png
-step1.png
-step2.png
+^testdata$
+^\.travis\.yml$
+^CONDUCT\.md$
+^README\.Rmd$
+^logo\.png$
+^step1\.png$
+^step2\.png$
