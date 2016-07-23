@@ -11,6 +11,8 @@ Imports:
     R.matlab (>= 3.6.0),
     DT (>= 0.1)
 Description: RStudio Add-In to interactively read ALL the data into R.
+URL: https://github.com/Stan125/GREA
+BugReports: https://github.com/Stan125/GREA/issues
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
