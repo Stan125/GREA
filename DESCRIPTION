@@ -6,10 +6,10 @@ Authors@R: c(person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm"
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: shiny, miniUI
 Imports:
-    rstudioapi,
-    rio,
-    R.matlab,
-    DT
+    rstudioapi (>= 0.6),
+    rio (>= 0.4.8),
+    R.matlab (>= 3.6.0),
+    DT (>= 0.1)
 Description: RStudio Add-In to interactively read ALL the data into R.
 License: GPL-2
 LazyData: TRUE
