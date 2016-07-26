@@ -11,7 +11,7 @@
 #' @export
 
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", sheetIndex = 1) {
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", sheetIndex = 1, na.values) {
 
   # Wrap TryCatch around to specify error messages
   tryCatch({
@@ -28,32 +28,44 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", sheetI
     # ------ Text-like Files with options ------ #
 
     # raw, csv, txt, asc, dat
-    if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
-      expr <- paste0("read.table(file = ", "'", filelocation, "', ",
-                     "header = ", header, ", ", "sep = ", "'",  sep, "'",", dec = ", "'", dec, "')")
+    if (any(filetype == c("raw", "csv", "txt", "asc", "dat"))) {
+      expr <- quote(read.table())
+      expr[c("file", "sep", "dec", "header")] <- list(filelocation, sep, dec, header)
+      if (!missing(na.values))
+        expr[c("na.strings")] <- na.values
+    }
 
     # ------ Non-Text files with "which" options ------ #
 
     # Excel: .xls, .xlsx
-    else if (any(filetype == c("xls", "xlsx")))
-      expr <- paste0("rio::import(file = ", "'", filelocation, "', ", "which = ", sheetIndex, ")")
+    else if (any(filetype == c("xls", "xlsx"))) {
+      expr <- quote(rio::import())
+      expr[c("file", "which", "na")] <- list(filelocation, sheetIndex, na.values)
+      if (!missing(na.values))
+        expr[c("na.strings")] <- na.values
+    }
 
     # ------ Files unknown to rio ------ #
 
     # MATLAB: .mat
-    else if (filetype == "mat")
-      expr <- paste0("R.matlab::readMat(con = ", "'", filelocation, "'", ")")
+    else if (filetype == "mat") {
+      expr <- quote(R.matlab::readMat())
+      expr["con"] <- filelocation
+    }
 
     # ------ Non-Text files without options ------ #
 
-    else
-      expr <- paste0("rio::import(", "'", filelocation, "')")
+    else {
+      expr <- quote(rio::import())
+      expr[c("file", "na")] <- list(filelocation, na.values)
+      if (!missing(na.values))
+        expr[c("na.strings")] <- na.values
+    }
 
     # Give back DF and attach command to it
-      return(structure(eval(parse(text = expr)), GREAcommand = expr))
+      return(buu <- structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 300)))
   }
   ,
-
   # ------ Files with other options ------ #
   error = function(err) {
     message("1. Wrong options for generating df, or")
