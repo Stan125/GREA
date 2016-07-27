@@ -1,24 +1,23 @@
 #' Read Data Wrapper
 #'
-#' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in
+#' Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
 #' @param filelocation A single string with the location and name of the file, e.g. \dQuote{data/blabla.csv}
 #' @param header A logical indicating whether a text-delimited file contains a header row.
 #' @param sep A character string specifying a column separator.
 #' @param dec A character string specifying a decimal separator.
-#' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats)
-#' @param na.values A character string specifying which values to convert to NA's
+#' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats).
+#' @param na.values A character string specifying which values to convert to NA's.
 #' while importing. Can be a vector of values when reading text-delimited files (\code{\link{read.table}}),
 #' and should be a single value when importing Excel files (\code{\link[readxl]{read_excel}}).
-#' @return A dataframe, containing the read-in data.
+#' @param skip How many rows should be skipped? Only for text-delimited files and Excel files.
+#' @param encoding Encoding of text-delimited files (see \code{\link{read.table}})
+#' @return A dataframe, containing the read-in data plus the code to read the data as an attribute.
 #' @importFrom tools file_ext
 #' @export
 
 ## Function: GREA_read
 GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
-                      sheetIndex = 1, na.values) {
-
-  # Wrap TryCatch around to specify error messages
-  tryCatch({
+                      sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
 
     if (is.null(filelocation))
       return(NULL)
@@ -35,8 +34,14 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     if (any(filetype == c("raw", "csv", "txt", "asc", "dat"))) {
       expr <- quote(read.table())
       expr[c("file", "sep", "dec", "header")] <- list(filelocation, sep, dec, header)
+
+      # Extra options
       if (!missing(na.values))
         expr[c("na.strings")] <- na.values
+      if (skip > 0)
+        expr[c("skip")] <- skip
+      if (encoding != "unknown")
+        expr[c("fileEncoding")] <- encoding
     }
 
     # ------ Non-Text files with "which" options ------ #
@@ -47,6 +52,8 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
       expr[c("file", "which", "na")] <- list(filelocation, sheetIndex, na.values)
       if (!missing(na.values))
         expr[c("na.strings")] <- na.values
+      if (skip > 0)
+        expr[c("skip")] <- skip
     }
 
     # ------ Files unknown to rio ------ #
@@ -67,17 +74,5 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     }
 
     # Give back DF and attach command to it
-      return(buu <- structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 300)))
+      return(structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 300)))
   }
-  ,
-  # ------ Files with other options ------ #
-  error = function(err) {
-    message("1. Wrong options for generating df, or")
-    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
-  },
-  warning = function(war) {
-    message("1. Wrong options for generating df, or")
-    message("2. Outcome is not a df (for Excel and SPSS reader functions)")
-  }
-  )
-}
