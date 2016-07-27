@@ -22,6 +22,8 @@ wd_check <- function(filelocation) {
   } else if (grepl("/", filelocation)) {
     file_split <- unlist(strsplit(filelocation, "/"))
     wd_split <- unlist(strsplit(getwd(), "/"))
+  } else {
+    return(filelocation)
   }
 
   # Return filepaths depending on whether the file is in the WD
