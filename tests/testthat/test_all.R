@@ -38,3 +38,25 @@ test_that("GREA_read attaches code as attribute to the read-in df", {
 test_that("GREA_read returns NULL when no filelocation is specified", {
   expect_null(GREA_read(filelocation = NULL))
 })
+
+test_that("GREA_read can read files with encoding", {
+  levels(iris$Species)[4] <- "Österreich"
+  iris$Species[1] <- "Österreich"
+  write.table(iris, "iris_with_encoding.csv", fileEncoding = "latin1")
+  df <- GREA_read("iris_with_encoding.csv", encoding = "latin1", sep = " ", header = TRUE)
+  expect_true(any(class(df) == "data.frame"))
+
+  # Cleaning up
+  rm(df)
+  file.remove("iris_with_encoding.csv")
+})
+
+test_that("GREA_read can read while skipping rows", {
+  write.table(iris, "iris.csv")
+  df <- GREA_read("iris.csv", skip = 1, header = FALSE, sep = " ")
+  expect_true(df[1, 2] == 5.1)
+
+  # Cleaning up
+  file.remove("iris.csv")
+  rm(df)
+})
