@@ -6,12 +6,16 @@
 #' @param sep A character string specifying a column separator.
 #' @param dec A character string specifying a decimal separator.
 #' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats)
+#' @param na.values A character string specifying which values to convert to NA's
+#' while importing. Can be a vector of values when reading text-delimited files (\code{\link{read.table}}),
+#' and should be a single value when importing Excel files (\code{\link[readxl]{read_excel}}).
 #' @return A dataframe, containing the read-in data.
 #' @importFrom tools file_ext
 #' @export
 
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", sheetIndex = 1, na.values) {
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
+                      sheetIndex = 1, na.values) {
 
   # Wrap TryCatch around to specify error messages
   tryCatch({

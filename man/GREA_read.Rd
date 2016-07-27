@@ -17,6 +17,10 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 \item{dec}{A character string specifying a decimal separator.}
 
 \item{sheetIndex}{A numerical value to indicate which sheet to import (Excel formats)}
+
+\item{na.values}{A character string specifying which values to convert to NA's
+while importing. Can be a vector of values when reading text-delimited files (\code{\link{read.table}}),
+and should be a single value when importing Excel files (\code{\link[readxl]{read_excel}}).}
 }
 \value{
 A dataframe, containing the read-in data.
