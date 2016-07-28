@@ -48,6 +48,21 @@ GREA <- function() {
         "Preview", icon = icon("table"),
         miniContentPanel(
           DT::dataTableOutput("preview")
+        )),
+      # Advanced Options Tab Panel
+      miniTabPanel(
+        "Advanced Options", icon = icon("cog"),
+        miniContentPanel(
+          fillRow(
+            # Encoding and Row Skipping
+            column(width = 8,
+                   uiOutput("adv_options")
+            ),
+            # NA values
+            column(width = 8,
+                   textInput("NA_ops", label = "NA values", value = "", width = "90%")
+            )
+          )
         ))
     )
   )
@@ -86,14 +101,26 @@ GREA <- function() {
       # First try generating the dataset, if something goes wrong display error message
       validate(
         need(
-          try(data <- GREA_read(fileloc(),
-                                # Options for raw, csv, txt, asc, dat
-                                header = input$option_header,
-                                sep = input$option_sep, dec = input$option_dec,
-                                sheetIndex = input$option_sheetindex)
-          ), "        1. Wrong options for generating df, or\n
+          try({
+            # Assemble call
+            call <-  quote(GREA_read(fileloc(),
+                                     # Options for raw, csv, txt, asc, dat
+                                     header = input$option_header,
+                                     sep = sep(), dec = input$option_dec,
+                                     sheetIndex = input$option_sheetindex))
+
+            if (!is.null(input$NA_ops))
+              call$na.values <- input$NA_ops
+            if (input$encode_ops != "unknown" && !is.null(input$encode_ops))
+              call$encoding <- input$encode_ops
+            if (input$skip_ops > 0 && !is.null(input$skip_ops))
+              call$skip <- input$skip_ops
+
+            data <- eval(call)
+
+          }), "        1. Wrong options for generating df, or\n
         2. Outcome is not a df (for Excel and SPSS reader functions)"
-       )
+        )
       )
       data
     })
@@ -117,7 +144,7 @@ GREA <- function() {
                       info = FALSE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
     class = "cell-border stripe")
 
-    # ------ INTERACTIVE UI ------ #
+    # ------ INTERACTIVE UI: BASIC OPTIONS ------ #
 
     observeEvent(input$file_button, {
 
@@ -155,6 +182,48 @@ GREA <- function() {
       else
         output$options <- renderUI({ p("") })
 
+    })
+
+    # ------ INTERACTIVE UI: ADVANCED OPTIONS ------ #
+
+    observeEvent(input$file_button, {
+
+      # Get filetype
+      filetype <- tools::file_ext(fileloc())
+
+      # Render text file UI
+      if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
+        output$adv_options <- renderUI({
+          list(
+            textInput("colsep_ops", label = "Column separator", value = "", width = "90%"),
+            p(),
+            selectInput("encode_ops", label = "Encoding", choices = c("unknown", "UTF-8", "latin1"), width = "90%"),
+            p(),
+            numericInput("skip_ops", label = "Skip rows:", value = 0, width = "50%")
+          )
+        })
+
+      # Excel Options
+      else if (any(filetype == c("xls", "xlsx")))
+        output$adv_options <- renderUI({
+          numericInput("skip_ops", label = "Skip rows:", value = 0, width = "50%")
+        })
+
+      # Else nothing
+      else
+        output$adv_options <- renderUI({ p("") })
+
+    })
+
+    # ------ READ FUNCTION OPTIONS ------ #
+
+    sep <- reactive({
+      if (!is.null(input$colsep_ops) && input$colsep_ops != "")
+        value_sep <- input$colsep_ops
+      else
+        value_sep <- input$option_sep
+
+      value_sep
     })
 
     # ------ AFTER PRESSING "DONE" ------ #
