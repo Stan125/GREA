@@ -22,7 +22,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     if (is.null(filelocation))
       return(NULL)
 
-    # Obtain filetype, add tolerance for big extensions
+    # Obtain filetype, add tolerance for uppercase extensions
     filetype <- tolower(file_ext(filelocation))
 
     # Fix the filelocation string (because of very annoying windows bug)
