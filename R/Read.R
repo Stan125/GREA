@@ -68,7 +68,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
 
     else {
       expr <- quote(rio::import())
-      expr[c("file", "na")] <- list(filelocation, na.values)
+      expr[c("file")] <- list(filelocation)
       if (!missing(na.values))
         expr[c("na.strings")] <- na.values
     }
