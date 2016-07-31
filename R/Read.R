@@ -51,7 +51,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
       expr <- quote(rio::import())
       expr[c("file", "which", "na")] <- list(filelocation, sheetIndex, na.values)
       if (!missing(na.values))
-        expr[c("na.strings")] <- na.values
+        expr[c("na")] <- na.values
       if (skip > 0)
         expr[c("skip")] <- skip
     }
