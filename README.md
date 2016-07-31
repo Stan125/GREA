@@ -12,15 +12,29 @@ Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is i
 
 ### News
 
-16.05.2016 \* First version of GREA was wrapped up into a package
+16.05.2016
 
-22.05.2016 \* `shiny::fileInput` dependency replaced with `fileChoose()` function
+-   First version of GREA was wrapped up into a package
 
-26.05.2016 \* Big structural revamp: Add-In now pastes the proper function to parse the file right into the console!
+22.05.2016
 
-18.06.2016 \* Now relies heavily on [rio](https://cran.r-project.org/web/packages/rio/README.html), therefore supporting way more filetypes.
+-   `shiny::fileInput` dependency replaced with `fileChoose()` function
 
-21.07.2016 \* New Advanced Options Tab: Adds the ability to \* Specify own NA values \* Specify own column separators \* Skip rows when reading data \* Encode text-delimited files
+26.05.2016
+
+-   Big structural revamp: Add-In now pastes the proper function to parse the file right into the console!
+
+18.06.2016
+
+-   Now relies heavily on [rio](https://cran.r-project.org/web/packages/rio/README.html), therefore supporting way more filetypes.
+
+21.07.2016
+
+-   New Advanced Options Tab: Adds the ability to
+    -   Specify own NA values
+    -   Specify own column separators
+    -   Skip rows when reading data
+    -   Encode text-delimited files
 
 ### Installation
 
