@@ -1,7 +1,5 @@
 # ---------- GREA_read() Tests ---------- #
 
-
-
 test_that("GREA_read attaches code as attribute to the read-in df", {
   write.table(iris, "iris.csv", sep = ";", dec = ".")
   df <- GREA_read(file.path(getwd(), "iris.csv"), header = TRUE, sep = ";", dec = ".")
