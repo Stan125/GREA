@@ -109,7 +109,7 @@ GREA <- function() {
                                      sep = sep(), dec = input$option_dec,
                                      sheetIndex = input$option_sheetindex))
 
-            if (!is.null(input$NA_ops))
+            if (!is.null(input$NA_ops) && input$NA_ops != "")
               call$na.values <- input$NA_ops
             if (input$encode_ops != "unknown" && !is.null(input$encode_ops))
               call$encoding <- input$encode_ops
