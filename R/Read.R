@@ -49,7 +49,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx"))) {
       expr <- quote(rio::import())
-      expr[c("file", "which", "na")] <- list(filelocation, sheetIndex, na.values)
+      expr[c("file", "which")] <- list(filelocation, sheetIndex)
       if (!missing(na.values))
         expr[c("na")] <- na.values
       if (skip > 0)
