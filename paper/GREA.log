@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.27)  2 AUG 2016 17:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.27)  3 AUG 2016 16:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -864,37 +864,39 @@ l.150 \clearpage
 
 ] [3
 
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 199.
- [4
+] [4] [5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 215.
+ [6
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 199.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 215.
  (./GREA.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 199.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 199.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 215.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 215.
 Package rerunfilecheck Info: File `GREA.out' has not changed.
 (rerunfilecheck)             Checksum: 963605CD09DCFAF4133AE88B28468DA1;642.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 199.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 215.
  ) 
 Here is how much of TeX's memory you used:
- 10567 strings out of 493089
- 158363 string characters out of 6134842
- 287607 words of memory out of 5000000
- 13869 multiletter control sequences out of 15000+600000
- 11324 words of font info for 40 fonts, out of 8000000 for 9000
+ 11537 strings out of 493089
+ 167830 string characters out of 6134842
+ 298607 words of memory out of 5000000
+ 14826 multiletter control sequences out of 15000+600000
+ 11792 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,11n,43p,328b,401s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,12n,43p,756b,1835s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></
-usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on GREA.pdf (5 pages, 967283 bytes).
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/
+local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/l
+ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on GREA.pdf (7 pages, 997086 bytes).
 PDF statistics:
- 118 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
- 20 named destinations out of 1000 (max. 500000)
+ 148 PDF objects out of 1000 (max. 8388607)
+ 128 compressed objects within 2 object streams
+ 32 named destinations out of 1000 (max. 500000)
  94 words of extra memory for PDF output out of 10000 (max. 10000000)
 
