@@ -33,13 +33,19 @@
 \usepackage{listings} %% for R Code
 
 %%% Listings options
+\lstdefinelanguage{Renhanced}[]{R}{
+  morekeywords={},
+  deletekeywords={hist, runif, plot, data.table, read.table},
+  alsoletter={.\%},%
+  alsoother={:_\$}}
+
  \lstset{ 
-  language=R,                     % the language of the code
+  language=Renhanced,                     % the language of the code
   basicstyle=\small\ttfamily, % the size of the fonts that are used for the code
   numbers=left,                   % where to put the line-numbers
   numberstyle=\tiny\color{Blue},  % the style that is used for the line-numbers
   stepnumber=1,                   % the step between two line-numbers. If it is 1, each line will be numbered
-  numbersep=5pt,                  % how far the line-numbers are from the code
+  numbersep=10pt,                  % how far the line-numbers are from the code
   backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
   showspaces=false,               % show spaces adding particular underscores
   showstringspaces=false,         % underline spaces within strings
@@ -147,8 +153,6 @@ Paul \textsc{Wiemann}, M.Sc.\\ % Supervisor's Name
 
 \tableofcontents
 
-\clearpage
-
 \listoffigures
 
 \listoftables
@@ -157,11 +161,11 @@ Paul \textsc{Wiemann}, M.Sc.\\ % Supervisor's Name
 
 \section{Motivation}
 
-R is a statistical software with an almost uncountable number of functions for different statistical methods, procedures and graphs. On the Comprehensive R Archive Network (CRAN) alone, the most popular network for adding new features to R via so called ``packages'', more than 8000 packages are ready to be downloaded (footnote CRAN). Each of them provide a variety of functions to solve different tasks. For example, a package called ``Vector Generalized Linear and Additive Models" (or short VGAM) can be easily installed via the R command \li[keywordstyle=\ttfamily\color{black}]{install.packages("VGAM")} and, once loaded in R, provides functions to estimate a variety of different regression models (Zitat?).
+R is a statistical software with an almost uncountable number of functions for different statistical methods, procedures and graphs. On the Comprehensive R Archive Network (CRAN) alone, the most popular network for adding new features to R via so called ``packages'', more than 8000 packages are ready to be downloaded (footnote CRAN). Each of them provide a variety of functions to solve different tasks. For example, a package called ``Vector Generalized Linear and Additive Models" (or short VGAM) can be easily installed via the R command \li{install.packages("VGAM")} and, once loaded in R, provides functions to estimate a variety of different regression models (Zitat?).
 
 These aforementioned packages with the underlying functions make R the popular statistical package it is today. But most of these additional features require some data to be of any use, most prominently regression model estimation functions. There exist datasets shipped with R, but for most academical purposes, external data will be required to generate new insights.
 
-To read data into R, there are multiple ways, depending on the data type (e.g. .csv, .xlsx) and also the data size (big data, small data). Reading a .csv file, for example, can be achieved via the built-in R function \lstinline[keywordstyle=\ttfamily\color{black}]|base::read.table("filename.csv")|. Big .csv files can be read very quick with the function \lstinline[keywordstyle=\ttfamily\color{black}]|data.table::fread("bigfile.csv")| from the data.table package. Other packages provide even more functionality, e.g. for dealing with strings or a smaller number of required arguments inside of a function. Most of those packages are also available on CRAN. 
+To read data into R, there are multiple ways, depending on the data type (e.g. .csv, .xlsx) and also the data size (big data, small data). Reading a .csv file, for example, can be achieved via the built-in R function \li{base::read.table("filename.csv")}. Big .csv files can be read very quick with the function \li{data.table::fread("bigfile.csv")} from the data.table package. Other packages provide even more functionality, e.g. for dealing with strings or a smaller number of required arguments inside of a function. Most of those packages are also available on CRAN. 
 
 The availability of packages to read different filetypes in numerous ways is very helpful for the advanced R user, because there is almost no filetype that cannot be read via an R function. But it also poses a problem: If there are so many ways that a user can read a file into R, how will she/he remember all the necessary packages and functions, and their function arguments? This problem is often encountered by new R users, who want to use R's extended functionalities but fail at importing data into their working environment.
 
@@ -177,8 +181,38 @@ Using this Add-In, the user can now read data into R without remembering any cod
 
 \subsection{The Shiny Framework}
 
+The Shiny Framework is in itself an R package designed to create interactive visualisations with R functions and HTML code. The author describes the package as ``combining the computational power of R with the interactivity of the modern web" (citing a web page blabla).The goal is to create applications with clickable interfaces quickly showcasing different scenarios. This is done via reactive R functions, which are run everytime a user interacts with the GUI. 
 
+\begin{figure}[h]
+\begin{centering}
+\includegraphics[scale = 0.5, trim = 50 50 50 100]{figures/example_shiny_app.png}
+\caption{An example Shiny App.}
+\label{exampleapp}
+\end{centering}
+\end{figure}
 
+Figure \ref{exampleapp} shows an example Shiny Application, consisting of some user interface (UI) control elements (a select button, and tick boxes) and a graph. The UI is reactive; whenever the user ticks a box or selects a different value in the first box, the graph changes its look. This is built upon reactive functions, which run every time a value inside them changes. The values that are allowed to change are therefore bound to the UI elements.
+
+Shiny Apps consist of two elements: The UI and a ``server" side. The UI includes functions which wrap HTML to build the viewable part of the App, for example buttons and placement of graphs. The server side consists of functions that specify the reactive R functions which create dynamic output displayed on the UI side, and when the functions should be run. Both sides then are able to automatically communicate with each other to create a smooth interactive experience for the user. Code for an example Shiny app is attached below:
+
+\begin{lstlisting}
+# Define UI
+ui <- bootstrapPage(
+  numericInput("n", "Number of obs", 100),
+  plotOutput("plot")
+)
+# Define Server
+server <-  function(input, output) {
+  output$plot <- renderPlot({ hist(runif(input$n)) })
+}
+app <- shinyApp(ui, server)
+runApp(app)
+
+\end{lstlisting}
+
+We can now see that both the UI and server elements are R objects, while the server also resembles an R function. \li{runApp()} then opens up the Application.
+
+\subsection{Shiny Gadgets}
 \subsection{RStudio Add-Ins}
 \section{Implementation}
 \subsection{The Main Function: \textrm{GREA()}}
@@ -186,19 +220,6 @@ Using this Add-In, the user can now read data into R without remembering any cod
 \subsection{Helper Functions}
 \section{Usage}
 
-
-Mit listings:
-\begin{lstlisting}
-data.table::fread()
-base::read.table()
-fib <- function(n) {
-  if (n < 2)
-    n
-  else
-    fib(n - 1) + fib(n - 2)
-}
-fib(10) # => 55
-\end{lstlisting}
 
 \clearpage
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.27)  3 AUG 2016 16:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.27)  3 AUG 2016 18:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -693,20 +693,20 @@ Package tocloft Info: The document has section divisions on input line 44.
 (./GREA.aux)
 \openout1 = `GREA.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
-LaTeX Font Info:    ... okay on input line 86.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 92.
+LaTeX Font Info:    ... okay on input line 92.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -771,7 +771,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box34
-Package hyperref Info: Link coloring OFF on input line 86.
+Package hyperref Info: Link coloring OFF on input line 92.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -781,9 +781,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count141
 )
-LaTeX Info: Redefining \ref on input line 86.
-LaTeX Info: Redefining \pageref on input line 86.
-LaTeX Info: Redefining \nameref on input line 86.
+LaTeX Info: Redefining \ref on input line 92.
+LaTeX Info: Redefining \pageref on input line 92.
+LaTeX Info: Redefining \nameref on input line 92.
 
 (./GREA.out) (./GREA.out)
 \@outlinefile=\write3
@@ -825,14 +825,14 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
- <figures/logo.jpg, id=48, 456.7464pt x 88.28986pt>
+ <figures/logo.jpg, id=52, 456.7464pt x 88.28986pt>
 File: figures/logo.jpg Graphic file (type jpg)
 
 <use figures/logo.jpg>
-Package pdftex.def Info: figures/logo.jpg used on input line 139.
+Package pdftex.def Info: figures/logo.jpg used on input line 145.
 (pdftex.def)             Requested size: 456.74529pt x 88.28961pt.
 
-Overfull \hbox (1.50117pt too wide) in paragraph at lines 139--139
+Overfull \hbox (1.50117pt too wide) in paragraph at lines 145--145
  [][] 
  []
 
@@ -844,15 +844,7 @@ es/logo.jpg>] (./GREA.toc)
 \tf@toc=\write4
 \openout4 = `GREA.toc'.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.150 \clearpage
-                 [1
-
-
-] (./GREA.lof)
+ (./GREA.lof)
 \tf@lof=\write5
 \openout5 = `GREA.lof'.
 
@@ -860,31 +852,48 @@ l.150 \clearpage
 \tf@lot=\write6
 \openout6 = `GREA.lot'.
 
- [2
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.160 \clearpage
+                 [1
 
-] [3
 
-] [4] [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 215.
+] [2
+
+]
+<figures/example_shiny_app.png, id=88, 874.26625pt x 717.68124pt>
+File: figures/example_shiny_app.png Graphic file (type png)
+
+<use figures/example_shiny_app.png>
+Package pdftex.def Info: figures/example_shiny_app.png used on input line 188.
+(pdftex.def)             Requested size: 386.94455pt x 283.55849pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] [4 <./figures/example_shiny_app.png>] [5]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 236.
  [6
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 215.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 236.
  (./GREA.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 215.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 215.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 236.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 236.
 Package rerunfilecheck Info: File `GREA.out' has not changed.
-(rerunfilecheck)             Checksum: 963605CD09DCFAF4133AE88B28468DA1;642.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 215.
+(rerunfilecheck)             Checksum: 8D7B4176E77696BAE48642F7FC76EF58;705.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 236.
  ) 
 Here is how much of TeX's memory you used:
- 11537 strings out of 493089
- 167830 string characters out of 6134842
- 298607 words of memory out of 5000000
- 14826 multiletter control sequences out of 15000+600000
+ 11572 strings out of 493089
+ 168403 string characters out of 6134842
+ 319196 words of memory out of 5000000
+ 14856 multiletter control sequences out of 15000+600000
  11792 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,12n,43p,756b,1835s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,11n,50p,719b,1779s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
@@ -893,10 +902,10 @@ r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr
 /local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/
 local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/l
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on GREA.pdf (7 pages, 997086 bytes).
+Output written on GREA.pdf (7 pages, 1043461 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
- 32 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 161 PDF objects out of 1000 (max. 8388607)
+ 139 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
+ 107 words of extra memory for PDF output out of 10000 (max. 10000000)
 
