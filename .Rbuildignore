@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^images$
-^paper$
 ^\.travis\.yml$
 ^CONDUCT\.md$
 ^README\.Rmd$
