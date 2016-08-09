@@ -231,9 +231,6 @@ GREA <- function() {
     observeEvent(input$done, {
 
       #### Task 1 ####
-      # Check if file is inside the working directory
-      file <- wd_check(fileloc())
-
       # Paste Code into Console
       if (nzchar(fileloc()) && nzchar(input$name_dataset) && !is.null(dataset())) {
 
