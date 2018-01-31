@@ -90,7 +90,13 @@ GREA <- function() {
     observeEvent(input$file_button, {
       if (!is.null(fileloc()))
         # Change Text Input to file name
-        updateTextInput(session, "name_dataset", value = tools::file_path_sans_ext(basename(fileloc())))
+        updateTextInput(
+          session,
+          "name_dataset",
+          value = base::make.names(
+            tools::file_path_sans_ext(basename(fileloc()))
+          )
+        )
     })
 
     # ------ VALIDATION ------ #
@@ -238,7 +244,7 @@ GREA <- function() {
         expr <- attributes(dataset())$GREAcommand
 
         # Assemble code
-        code <- paste0(input$name_dataset, " <- ", expr)
+        code <- paste0(base::make.names(input$name_dataset), " <- ", expr)
 
         # Paste into Console
         rstudioapi::insertText(text = code, id = "#console")
