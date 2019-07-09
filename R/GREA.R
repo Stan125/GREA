@@ -165,7 +165,7 @@ GREA <- function() {
     output$classes <- renderRHandsontable({
       columnNames <- colnames(dataset())
       columnClasses <- req("character", length(columnNames))
-      columnInfo <- as.character(lapply(dataset(), function(x) paste0(x, collapse = ', ')))
+      columnInfo <- as.character(lapply(head(dataset(), 10), function(x) paste0(x, collapse = ', ')))
       df <- data.frame(columnNames, columnClasses, columnInfo, stringsAsFactors = FALSE)
 
       hot <- rhandsontable(df)
