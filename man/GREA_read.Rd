@@ -17,6 +17,8 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 
 \item{dec}{A character string specifying a decimal separator.}
 
+\item{colClasses}{A character vector specifying the classes of the columns.}
+
 \item{sheetIndex}{A numerical value to indicate which sheet to import (Excel formats).}
 
 \item{na.values}{A character string specifying which values to convert to NA's.

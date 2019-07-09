@@ -11,6 +11,7 @@
 #' @import miniUI
 #' @import rhandsontable
 #' @importFrom tools file_ext
+#' @importFrom utils head
 #'
 GREA <- function() {
 
