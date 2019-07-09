@@ -15,6 +15,10 @@ test_that("wd_check knows when a file lies in a working directory", {
   path <- file.path(getwd(), "data/file.csv")
   temppath <- file.path(tempdir(), "data/file.csv")
 
+  if(Sys.info()["sysname"] == "Windows"){
+    path <- gsub('\\\\', '/', path)
+    temppath <- gsub('\\\\', '/', temppath)
+  }
   # Tests
   expect_equal(wd_check(path), "data/file.csv")
   expect_equal(wd_check(temppath), temppath)

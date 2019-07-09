@@ -5,6 +5,7 @@
 #' @param header A logical indicating whether a text-delimited file contains a header row.
 #' @param sep A character string specifying a column separator.
 #' @param dec A character string specifying a decimal separator.
+#' @param colClasses A character vector specifying the classes of the columns.
 #' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats).
 #' @param na.values A character string specifying which values to convert to NA's.
 #' while importing. Can be a vector of values when reading text-delimited files (\code{\link{read.table}}),
@@ -16,7 +17,7 @@
 #' @export
 
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colClasses = NA,
                       sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
 
     if (is.null(filelocation))
@@ -33,7 +34,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # raw, csv, txt, asc, dat
     if (any(filetype == c("raw", "csv", "txt", "asc", "dat"))) {
       expr <- quote(read.table())
-      expr[c("file", "sep", "dec", "header")] <- list(filelocation, sep, dec, header)
+      expr[c("file", "sep", "dec", "header", "colClasses")] <- list(filelocation, sep, dec, header, colClasses)
 
       # Extra options
       if (!missing(na.values))
