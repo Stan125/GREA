@@ -9,6 +9,7 @@
 #' @export
 #' @import shiny
 #' @import miniUI
+#' @import rhandsontable
 #' @importFrom tools file_ext
 #'
 GREA <- function() {
@@ -48,6 +49,13 @@ GREA <- function() {
         "Preview", icon = icon("table"),
         miniContentPanel(
           DT::dataTableOutput("preview")
+        )),
+
+      # Data Types Panel
+      miniTabPanel(
+        "Data Types", icon = icon("columns"),
+        miniContentPanel(
+          rHandsontableOutput("classes")
         )),
       # Advanced Options Tab Panel
       miniTabPanel(
@@ -141,7 +149,8 @@ GREA <- function() {
         paste0("Select your file!")
     })
 
-    # ------ PREVIEW TABLE ------ #
+
+    # ------ PREVIEW TABLE ------#
 
     # Render preview table
     output$preview <- DT::renderDataTable({
@@ -149,6 +158,21 @@ GREA <- function() {
     }, options = list(autoWidth = FALSE, paging = TRUE, searching = FALSE,
                       info = FALSE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
     class = "cell-border stripe")
+
+
+    # ------ PREVIEW COLUMN TYPES ------#
+
+    output$classes <- renderRHandsontable({
+      columnNames <- colnames(dataset())
+      columnClasses <- req("character", length(columnNames))
+      columnInfo <- as.character(lapply(dataset(), function(x) paste0(x, collapse = ', ')))
+      df <- data.frame(columnNames, columnClasses, columnInfo, stringsAsFactors = FALSE)
+
+      hot <- rhandsontable(df)
+      posTypes <- c("character", "numeric", "integer", "factor", "Date", "POSIXct",
+                    "logical", "NULL", "complex", "raw", NA)
+      hot_col(hot, col = "columnClasses", type = "dropdown", source = posTypes, strict = TRUE)
+    })
 
     # ------ INTERACTIVE UI: BASIC OPTIONS ------ #
 
@@ -243,8 +267,19 @@ GREA <- function() {
         # Get code that was used to read dataset
         expr <- attributes(dataset())$GREAcommand
 
+        #Inserted Column Types
+        columnDF <- hot_to_r(input$classes)
+        classVec <- columnDF$columnClasses
+
+        if(is.null(classVec)){
+          exprTypes <- expr
+        }
+        else {
+          exprTypes <- sprintf('%s %s)', gsub(', colClasses = .*', ', colClasses =', expr), paste(deparse(classVec), collapse = ''))
+        }
+
         # Assemble code
-        code <- paste0(base::make.names(input$name_dataset), " <- ", expr)
+        code <- paste0(base::make.names(input$name_dataset), " <- ", exprTypes)
 
         # Paste into Console
         rstudioapi::insertText(text = code, id = "#console")

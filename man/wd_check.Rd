@@ -19,4 +19,3 @@ Function to determine if a file lies in a working directory.
 filepath_test <- file.path(getwd(), "data", "testfile.csv")
 wd_check(filepath_test)
 }
-

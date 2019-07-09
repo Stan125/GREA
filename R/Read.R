@@ -33,7 +33,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # raw, csv, txt, asc, dat
     if (any(filetype == c("raw", "csv", "txt", "asc", "dat"))) {
       expr <- quote(read.table())
-      expr[c("file", "sep", "dec", "header")] <- list(filelocation, sep, dec, header)
+      expr[c("file", "sep", "dec", "header", "colClasses")] <- list(filelocation, sep, dec, header, colClasses)
 
       # Extra options
       if (!missing(na.values))

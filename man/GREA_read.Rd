@@ -32,4 +32,3 @@ A dataframe, containing the read-in data plus the code to read the data as an at
 \description{
 Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
 }
-
