@@ -16,7 +16,7 @@
 #' @export
 
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colClasses = NA,
                       sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
 
     if (is.null(filelocation))
