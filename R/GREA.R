@@ -15,6 +15,7 @@
 #'
 GREA <- function() {
 
+
   ui <- miniPage(
     # Title Bar
     gadgetTitleBar(title = "Gotta Read 'Em All"),
@@ -58,7 +59,7 @@ GREA <- function() {
       miniTabPanel(
         "Data Types", icon = icon("columns"),
         miniContentPanel(
-          rHandsontableOutput("classes")
+          rHandsontableOutput("classes", height = "230px")
         )),
       # Advanced Options Tab Panel
       miniTabPanel(
@@ -134,13 +135,25 @@ GREA <- function() {
             if (input$skip_ops > 0 && !is.null(input$skip_ops))
               call$skip <- input$skip_ops
 
+            if (!is.null(input$classes)) {
+              #parse handsontable to R-object
+              column_df <- hot_to_r(input$classes)
+              #extract
+              col_class_vec <- column_df$column_classes
+              #col_names_vec <- column_df
+              call$colClasses <- col_class_vec
+            }
+
             data <- eval(call)
 
           }), "        1. Wrong options for generating df, or\n
         2. Outcome is not a df (for Excel and SPSS reader functions)"
         )
       )
+
       data
+
+
     })
 
     # ------ TEXT: 'blabla.filetype' DETECTED ------ #
@@ -168,16 +181,19 @@ GREA <- function() {
     # ------ PREVIEW COLUMN TYPES ------#
 
     output$classes <- renderRHandsontable({
-      column_names <- colnames(dataset())
+      data <- isolate(dataset())
+      column_names <- colnames(data)
       column_classes <- rep("character", length(column_names))
       column_info <- as.character(
-        lapply(head(dataset(), 10), function(x) paste0(x, collapse = ", ")))
+        lapply(head(data, 10), function(x) paste0(x, collapse = ", ")))
+
       df <- data.frame(column_names, column_classes, column_info,
         stringsAsFactors = FALSE)
 
       hot <- rhandsontable::rhandsontable(df)
       pos_types <- c("character", "numeric", "integer", "factor", "Date",
         "POSIXct", "logical", "NULL", "complex", "raw", NA)
+
       hot_col(hot, col = "column_classes", type = "dropdown",
         source = pos_types, strict = TRUE)
     })
@@ -282,21 +298,8 @@ GREA <- function() {
         # Get code that was used to read dataset
         expr <- attributes(dataset())$GREAcommand
 
-        #Inserted Column Types
-        column_df <- hot_to_r(input$classes)
-        class_vec <- column_df$column_classes
-
-        if (is.null(class_vec)){
-          expr_types <- expr
-        }
-        else {
-          expr_types <- sprintf("%s %s)",
-            gsub(", colClasses = .*", ", colClasses =", expr),
-            paste(deparse(class_vec), collapse = ""))
-        }
-
         # Assemble code
-        code <- paste0(base::make.names(input$name_dataset), " <- ", expr_types)
+        code <- paste0(base::make.names(input$name_dataset), " <- ", expr)
 
         # Paste into Console
         rstudioapi::insertText(text = code, id = "#console")

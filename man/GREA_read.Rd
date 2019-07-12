@@ -5,8 +5,8 @@
 \title{Read Data Wrapper}
 \usage{
 GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
-  colClasses = NA, sheetIndex = 1, na.values, skip = 0,
-  encoding = "unknown")
+  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values, 
+  skip = 0, encoding = "unknown")
 }
 \arguments{
 \item{filelocation}{A single string with the location and name of the file, e.g. \dQuote{data/blabla.csv}}
