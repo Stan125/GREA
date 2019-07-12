@@ -5,17 +5,8 @@
 \title{Read Data Wrapper}
 \usage{
 GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
-<<<<<<< Updated upstream
-  sheetIndex = 1, na.values, skip = 0, encoding = "unknown")
-=======
-<<<<<<< HEAD
-  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values,
+  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values, 
   skip = 0, encoding = "unknown")
-=======
-  colClasses = NA, sheetIndex = 1, na.values, skip = 0,
-  encoding = "unknown")
->>>>>>> origin/master
->>>>>>> Stashed changes
 }
 \arguments{
 \item{filelocation}{A single string with the location and name of the file, e.g. \dQuote{data/blabla.csv}}
@@ -25,6 +16,8 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 \item{sep}{A character string specifying a column separator.}
 
 \item{dec}{A character string specifying a decimal separator.}
+
+\item{colClasses}{A character vector specifying the classes of the columns.}
 
 \item{sheetIndex}{A numerical value to indicate which sheet to import (Excel formats).}
 

@@ -4,7 +4,7 @@ Title: Gotta Read 'Em All
 Version: 1.0
 Authors@R: c(person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb")), person("Thomas", "Leeper", email = "thosjleeper@gmail.com", role = "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
-Depends: shiny (>= 0.13.2), miniUI (>= 0.1.1), R (>= 3.3.0)
+Depends: shiny (>= 0.13.2), miniUI (>= 0.1.1), rhandsontable (>= 0.3.7), R (>= 3.3.0)
 Imports:
     rstudioapi (>= 0.6),
     rio (>= 0.4.8),
