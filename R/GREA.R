@@ -11,6 +11,7 @@
 #' @import miniUI
 #' @import rhandsontable
 #' @importFrom tools file_ext
+#' @importFrom utils head
 #'
 GREA <- function() {
 
@@ -21,27 +22,29 @@ GREA <- function() {
 
     # Tabstrips
     miniTabstripPanel(
-
       # Input Tab Panel
       miniTabPanel(
         "Input", icon = icon("folder-open"),
         miniContentPanel(
           fillRow(
             column(width = 8,
-                   # Output  '... selected'
-                   strong(textOutput("text_selected"), style = "color:green"),
-                   p(),
-                   # Action button to call fileChoose()
-                   actionButton("file_button", "Select File", width = "50%", icon("file"),
-                                style="color: #fff; background-color: #337ab7; border-color: #2e6da4"),
-                   p(),
-                   # Name of Dataset (optional)
-                   textInput("name_dataset", label = "Give your dataset a name", width = "90%")
+              # Output  '... selected'
+              strong(textOutput("text_selected"), style = "color:green"),
+              p(),
+              # Action button to call fileChoose()
+              actionButton("file_button", "Select File", width = "50%",
+                icon("file"), style = "color: #fff;
+                background-color: #337ab7; border-color: #2e6da4"),
+              p(),
+              # Name of Dataset (optional)
+              textInput("name_dataset", label = "Give your dataset a name",
+                width = "90%")
             ),
             column(width = 8,
-                   strong(p("Further options (per filetype)", options = "align = top")),
-                   # Output for options
-                   uiOutput("options")
+              strong(p("Further options (per filetype)",
+                options = "align = top")),
+              # Output for options
+              uiOutput("options")
             )
           ))),
 
@@ -56,11 +59,7 @@ GREA <- function() {
       miniTabPanel(
         "Data Types", icon = icon("columns"),
         miniContentPanel(
-<<<<<<< HEAD
           rHandsontableOutput("classes", height = "230px")
-=======
-          rHandsontableOutput("classes")
->>>>>>> origin/master
         )),
       # Advanced Options Tab Panel
       miniTabPanel(
@@ -69,11 +68,12 @@ GREA <- function() {
           fillRow(
             # Encoding and Row Skipping
             column(width = 8,
-                   uiOutput("adv_options")
+              uiOutput("adv_options")
             ),
             # NA values
             column(width = 8,
-                   textInput("NA_ops", label = "NA values", value = "", width = "90%")
+              textInput("NA_ops", label = "NA values", value = "",
+                width = "90%")
             )
           )
         ))
@@ -173,13 +173,12 @@ GREA <- function() {
     output$preview <- DT::renderDataTable({
       dataset()
     }, options = list(autoWidth = FALSE, paging = TRUE, searching = FALSE,
-                      info = FALSE, ordering = FALSE, processing = FALSE, scrollX = TRUE),
+                      info = FALSE, ordering = FALSE, processing = FALSE,
+                      scrollX = TRUE),
     class = "cell-border stripe")
 
 
     # ------ PREVIEW COLUMN TYPES ------#
-
-<<<<<<< HEAD
 
     output$classes <- renderRHandsontable({
       data <- isolate(dataset())
@@ -187,43 +186,18 @@ GREA <- function() {
       column_classes <- rep("character", length(column_names))
       column_info <- as.character(
         lapply(head(data, 10), function(x) paste0(x, collapse = ", ")))
-=======
-    output$classes <- renderRHandsontable({
-<<<<<<< Updated upstream
-      columnNames <- colnames(dataset())
-      columnClasses <- req("character", length(columnNames))
-      columnInfo <- as.character(lapply(dataset(), function(x) paste0(x, collapse = ', ')))
-      df <- data.frame(columnNames, columnClasses, columnInfo, stringsAsFactors = FALSE)
 
-      hot <- rhandsontable(df)
-      posTypes <- c("character", "numeric", "integer", "factor", "Date", "POSIXct",
-                    "logical", "NULL", "complex", "raw", NA)
-      hot_col(hot, col = "columnClasses", type = "dropdown", source = posTypes, strict = TRUE)
-=======
-      column_names <- colnames(dataset())
-      column_classes <- rep("character", length(column_names))
-      column_info <- as.character(
-        lapply(head(dataset(), 10), function(x) paste0(x, collapse = ", ")))
->>>>>>> origin/master
       df <- data.frame(column_names, column_classes, column_info,
         stringsAsFactors = FALSE)
 
       hot <- rhandsontable::rhandsontable(df)
       pos_types <- c("character", "numeric", "integer", "factor", "Date",
         "POSIXct", "logical", "NULL", "complex", "raw", NA)
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
       hot_col(hot, col = "column_classes", type = "dropdown",
         source = pos_types, strict = TRUE)
->>>>>>> Stashed changes
     })
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     # ------ INTERACTIVE UI: BASIC OPTIONS ------ #
 
     observeEvent(input$file_button, {
@@ -238,8 +212,8 @@ GREA <- function() {
             # Column Separator Option
             selectInput(inputId = "option_sep",
                         label = "Select Separator",
-                        choices = c("White Space" = " ", "Semicolon" = ";", "Tabstopp" = "\t",
-                                    "Dot" = ".", "Comma" = ",")),
+                        choices = c("White Space" = " ", "Semicolon" = ";",
+                          "Tabstopp" = "\t", "Dot" = ".", "Comma" = ",")),
 
             # Decimal Separator Option
             selectInput(inputId = "option_dec",
@@ -254,13 +228,14 @@ GREA <- function() {
       # Excel Options
       else if (any(filetype == c("xls", "xlsx")))
         output$options <- renderUI({
-          numericInput(inputId = "option_sheetindex", label = "Select Excel Sheet Index",
+          numericInput(inputId = "option_sheetindex",
+            label = "Select Excel Sheet Index",
                        value = 1)
         })
 
       # Else nothing
       else
-        output$options <- renderUI({ p("") })
+        output$options <- renderUI(shiny::p(""))
 
     })
 
@@ -275,23 +250,27 @@ GREA <- function() {
       if (any(filetype == c("raw", "csv", "txt", "asc", "dat")))
         output$adv_options <- renderUI({
           list(
-            textInput("colsep_ops", label = "Column separator", value = "", width = "90%"),
+            textInput("colsep_ops", label = "Column separator", value = "",
+              width = "90%"),
             p(),
-            selectInput("encode_ops", label = "Encoding", choices = c("unknown", "UTF-8", "latin1"), width = "90%"),
+            selectInput("encode_ops", label = "Encoding",
+              choices = c("unknown", "UTF-8", "latin1"), width = "90%"),
             p(),
-            numericInput("skip_ops", label = "Skip rows:", value = 0, width = "50%")
+            numericInput("skip_ops", label = "Skip rows:", value = 0,
+              width = "50%")
           )
         })
 
       # Excel Options
       else if (any(filetype == c("xls", "xlsx")))
         output$adv_options <- renderUI({
-          numericInput("skip_ops", label = "Skip rows:", value = 0, width = "50%")
+          shiny::numericInput("skip_ops", label = "Skip rows:", value = 0,
+            width = "50%")
         })
 
       # Else nothing
       else
-        output$adv_options <- renderUI({ p("") })
+        output$adv_options <- renderUI(p(""))
 
     })
 
@@ -312,24 +291,15 @@ GREA <- function() {
 
       #### Task 1 ####
       # Paste Code into Console
-      if (nzchar(fileloc()) && nzchar(input$name_dataset) && !is.null(dataset())) {
+      if (nzchar(fileloc()) &&
+          nzchar(input$name_dataset) &&
+          !is.null(dataset())) {
 
         # Get code that was used to read dataset
         expr <- attributes(dataset())$GREAcommand
 
-        #Inserted Column Types
-        columnDF <- hot_to_r(input$classes)
-        classVec <- columnDF$columnClasses
-
-        if(is.null(classVec)){
-          exprTypes <- expr
-        }
-        else {
-          exprTypes <- sprintf('%s %s)', gsub(', colClasses = .*', ', colClasses =', expr), paste(deparse(classVec), collapse = ''))
-        }
-
         # Assemble code
-        code <- paste0(base::make.names(input$name_dataset), " <- ", exprTypes)
+        code <- paste0(base::make.names(input$name_dataset), " <- ", expr)
 
         # Paste into Console
         rstudioapi::insertText(text = code, id = "#console")
@@ -337,20 +307,20 @@ GREA <- function() {
 
       #### Task 2 ####
       # ... and then stop the app
-      stopApp()
+      shiny::stopApp()
     })
 
     # ------ WHEN PRESSING "CANCEL" ------ #
 
     observeEvent(input$cancel, {
-      stopApp()
+      shiny::stopApp()
     })
   })
 
-  app <- shinyApp(ui = ui, server = server)
+  app <- shiny::shinyApp(ui = ui, server = server)
   viewer <- dialogViewer(dialogName = "GREA",
                          height = 350,
                          width = 500)
 
-  runGadget(app, viewer = viewer, stopOnCancel = FALSE)
+  shiny::runGadget(app, viewer = viewer, stopOnCancel = FALSE)
 }
