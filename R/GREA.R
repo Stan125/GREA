@@ -58,7 +58,10 @@ GREA <- function() {
       miniTabPanel(
         "Data Types", icon = icon("columns"),
         miniContentPanel(
-          rHandsontableOutput("classes")
+          actionButton("update_button", "Reload names", width = "50%",
+            icon("sync"), style = "color: #fff;
+            background-color: #337ab7; border-color: #2e6da4"),
+          rHandsontableOutput("classes", height = "200px")
         )),
       # Advanced Options Tab Panel
       miniTabPanel(
@@ -168,7 +171,11 @@ GREA <- function() {
     # ------ PREVIEW COLUMN TYPES ------#
 
     output$classes <- renderRHandsontable({
-      column_names <- colnames(dataset())
+      input$update_button
+
+      data <- isolate(dataset())
+
+      column_names <- colnames(data)
       column_classes <- rep("character", length(column_names))
       column_info <- as.character(
         lapply(head(dataset(), 10), function(x) paste0(x, collapse = ", ")))
