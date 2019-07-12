@@ -14,6 +14,7 @@
 #'
 GREA <- function() {
 
+
   ui <- miniPage(
     # Title Bar
     gadgetTitleBar(title = "Gotta Read 'Em All"),
@@ -55,7 +56,11 @@ GREA <- function() {
       miniTabPanel(
         "Data Types", icon = icon("columns"),
         miniContentPanel(
+<<<<<<< HEAD
+          rHandsontableOutput("classes", height = "230px")
+=======
           rHandsontableOutput("classes")
+>>>>>>> origin/master
         )),
       # Advanced Options Tab Panel
       miniTabPanel(
@@ -130,13 +135,25 @@ GREA <- function() {
             if (input$skip_ops > 0 && !is.null(input$skip_ops))
               call$skip <- input$skip_ops
 
+            if (!is.null(input$classes)) {
+              #parse handsontable to R-object
+              column_df <- hot_to_r(input$classes)
+              #extract
+              col_class_vec <- column_df$column_classes
+              #col_names_vec <- column_df
+              call$colClasses <- col_class_vec
+            }
+
             data <- eval(call)
 
           }), "        1. Wrong options for generating df, or\n
         2. Outcome is not a df (for Excel and SPSS reader functions)"
         )
       )
+
       data
+
+
     })
 
     # ------ TEXT: 'blabla.filetype' DETECTED ------ #
@@ -162,7 +179,17 @@ GREA <- function() {
 
     # ------ PREVIEW COLUMN TYPES ------#
 
+<<<<<<< HEAD
+
     output$classes <- renderRHandsontable({
+      data <- isolate(dataset())
+      column_names <- colnames(data)
+      column_classes <- rep("character", length(column_names))
+      column_info <- as.character(
+        lapply(head(data, 10), function(x) paste0(x, collapse = ", ")))
+=======
+    output$classes <- renderRHandsontable({
+<<<<<<< Updated upstream
       columnNames <- colnames(dataset())
       columnClasses <- req("character", length(columnNames))
       columnInfo <- as.character(lapply(dataset(), function(x) paste0(x, collapse = ', ')))
@@ -172,8 +199,31 @@ GREA <- function() {
       posTypes <- c("character", "numeric", "integer", "factor", "Date", "POSIXct",
                     "logical", "NULL", "complex", "raw", NA)
       hot_col(hot, col = "columnClasses", type = "dropdown", source = posTypes, strict = TRUE)
+=======
+      column_names <- colnames(dataset())
+      column_classes <- rep("character", length(column_names))
+      column_info <- as.character(
+        lapply(head(dataset(), 10), function(x) paste0(x, collapse = ", ")))
+>>>>>>> origin/master
+      df <- data.frame(column_names, column_classes, column_info,
+        stringsAsFactors = FALSE)
+
+      hot <- rhandsontable::rhandsontable(df)
+      pos_types <- c("character", "numeric", "integer", "factor", "Date",
+        "POSIXct", "logical", "NULL", "complex", "raw", NA)
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
+      hot_col(hot, col = "column_classes", type = "dropdown",
+        source = pos_types, strict = TRUE)
+>>>>>>> Stashed changes
     })
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
     # ------ INTERACTIVE UI: BASIC OPTIONS ------ #
 
     observeEvent(input$file_button, {

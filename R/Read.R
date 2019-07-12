@@ -15,9 +15,14 @@
 #' @importFrom tools file_ext
 #' @export
 
+
 ## Function: GREA_read
 GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colClasses = NA,
+<<<<<<< HEAD
+                      col_types = TRUE, sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
+=======
                       sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
+>>>>>>> origin/master
 
     if (is.null(filelocation))
       return(NULL)
@@ -49,7 +54,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colCla
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx"))) {
       expr <- quote(rio::import())
-      expr[c("file", "which")] <- list(filelocation, sheetIndex)
+      expr[c("file", "which", "col_types")] <- list(filelocation, sheetIndex, convert_types(colClasses))
       if (!missing(na.values))
         expr[c("na")] <- na.values
       if (skip > 0)
@@ -74,5 +79,5 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colCla
     }
 
     # Give back DF and attach command to it
-      return(structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 300)))
+      return(structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 500L)))
   }
