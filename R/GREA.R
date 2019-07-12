@@ -15,6 +15,7 @@
 #'
 GREA <- function() {
 
+
   ui <- miniPage(
     # Title Bar
     gadgetTitleBar(title = "Gotta Read 'Em All"),
@@ -143,7 +144,10 @@ GREA <- function() {
         2. Outcome is not a df (for Excel and SPSS reader functions)"
         )
       )
+
       data
+
+
     })
 
     # ------ TEXT: 'blabla.filetype' DETECTED ------ #
