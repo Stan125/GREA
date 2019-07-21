@@ -5,7 +5,8 @@
 #------------------------------------------------------------------#
 #' Display Add-In
 #'
-#' Display's the GREA Add-In and assigns the right DF to the global environment after pressing "done".
+#' Display's the GREA Add-In and assigns the right DF to the global
+#' environment after pressing "done".
 #' @export
 #' @import shiny
 #' @import miniUI
@@ -62,6 +63,7 @@ GREA <- function() {
             background-color: #337ab7; border-color: #2e6da4"),
           rHandsontableOutput("classes", height = "200px")
         )),
+
       # Advanced Options Tab Panel
       miniTabPanel(
         "Advanced Options", icon = icon("cog"),
@@ -137,11 +139,11 @@ GREA <- function() {
               call$skip <- input$skip_ops
 
             if (!is.null(input$classes)) {
-              #parse handsontable to R-object
+              # parse handsontable to R-object
               column_df <- hot_to_r(input$classes)
-              #extract
+              # extract right vec
               col_class_vec <- column_df$column_classes
-              #col_names_vec <- column_df
+              # set argument
               call$colClasses <- col_class_vec
             }
 
@@ -197,7 +199,8 @@ GREA <- function() {
 
       hot <- rhandsontable::rhandsontable(df)
       pos_types <- c("character", "numeric", "integer", "factor", "Date",
-        "POSIXct", "logical", "NULL", "complex", "raw", NA)
+        "POSIXct", "logical", "NULL", NA)
+      # remove complex and raw
       hot_col(hot, col = "column_classes", type = "dropdown",
         source = pos_types, strict = TRUE)
     })
@@ -261,7 +264,10 @@ GREA <- function() {
               choices = c("unknown", "UTF-8", "latin1"), width = "90%"),
             p(),
             numericInput("skip_ops", label = "Skip rows:", value = 0,
-              width = "50%")
+              width = "50%"),
+            p(),
+            checkboxInput("fread_ops", "Let ", FALSE),
+
           )
         })
 

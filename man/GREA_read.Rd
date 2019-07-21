@@ -5,7 +5,7 @@
 \title{Read Data Wrapper}
 \usage{
 GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
-  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values, 
+  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values,
   skip = 0, encoding = "unknown")
 }
 \arguments{
@@ -17,7 +17,9 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 
 \item{dec}{A character string specifying a decimal separator.}
 
-\item{colClasses}{A character vector specifying the classes of the columns.}
+\item{colClasses}{A character vector specifying the classes of the columns. This vector is used by (\code{\link{read.table}}).}
+
+\item{col_types}{A character vector specifying the classes of the columns. This vector is used by (\code{\link[readxl]{read_excel}}).}
 
 \item{sheetIndex}{A numerical value to indicate which sheet to import (Excel formats).}
 
