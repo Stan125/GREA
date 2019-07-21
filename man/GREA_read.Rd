@@ -5,7 +5,8 @@
 \title{Read Data Wrapper}
 \usage{
 GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
-  sheetIndex = 1, na.values, skip = 0, encoding = "unknown")
+  colClasses = NA, col_types = TRUE, sheetIndex = 1, na.values,
+  skip = 0, encoding = "unknown")
 }
 \arguments{
 \item{filelocation}{A single string with the location and name of the file, e.g. \dQuote{data/blabla.csv}}
@@ -15,6 +16,10 @@ GREA_read(filelocation, header = FALSE, sep = " ", dec = ".",
 \item{sep}{A character string specifying a column separator.}
 
 \item{dec}{A character string specifying a decimal separator.}
+
+\item{colClasses}{A character vector specifying the classes of the columns. This vector is used by (\code{\link{read.table}}).}
+
+\item{col_types}{A character vector specifying the classes of the columns. This vector is used by (\code{\link[readxl]{read_excel}}).}
 
 \item{sheetIndex}{A numerical value to indicate which sheet to import (Excel formats).}
 
@@ -32,4 +37,3 @@ A dataframe, containing the read-in data plus the code to read the data as an at
 \description{
 Reads Data of many different formats. Currently: .dta (STATA), .sav (SPSS), .mat (MATLAB), .xls/.xlsx (Excel), and .raw, .csv, .txt, .asc, .dat. Is the basis-function for the GREA add-in.
 }
-

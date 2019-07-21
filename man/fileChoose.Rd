@@ -12,4 +12,3 @@ The location of the file
 \description{
 Builds upon file.choose(), but returns NULL when cancelled
 }
-

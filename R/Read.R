@@ -5,6 +5,8 @@
 #' @param header A logical indicating whether a text-delimited file contains a header row.
 #' @param sep A character string specifying a column separator.
 #' @param dec A character string specifying a decimal separator.
+#' @param colClasses A character vector specifying the classes of the columns. This vector is used by (\code{\link{read.table}}).
+#' @param col_types A character vector specifying the classes of the columns. This vector is used by (\code{\link[readxl]{read_excel}}).
 #' @param sheetIndex A numerical value to indicate which sheet to import (Excel formats).
 #' @param na.values A character string specifying which values to convert to NA's.
 #' while importing. Can be a vector of values when reading text-delimited files (\code{\link{read.table}}),
@@ -15,9 +17,10 @@
 #' @importFrom tools file_ext
 #' @export
 
+
 ## Function: GREA_read
-GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
-                      sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
+GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".", colClasses = NA,
+                      col_types = TRUE, sheetIndex = 1, na.values, skip = 0, encoding = "unknown") {
 
     if (is.null(filelocation))
       return(NULL)
@@ -33,7 +36,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # raw, csv, txt, asc, dat
     if (any(filetype == c("raw", "csv", "txt", "asc", "dat"))) {
       expr <- quote(read.table())
-      expr[c("file", "sep", "dec", "header")] <- list(filelocation, sep, dec, header)
+      expr[c("file", "sep", "dec", "header", "colClasses")] <- list(filelocation, sep, dec, header, colClasses)
 
       # Extra options
       if (!missing(na.values))
@@ -49,7 +52,7 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     # Excel: .xls, .xlsx
     else if (any(filetype == c("xls", "xlsx"))) {
       expr <- quote(rio::import())
-      expr[c("file", "which")] <- list(filelocation, sheetIndex)
+      expr[c("file", "which", "col_types")] <- list(filelocation, sheetIndex, convert_types(colClasses))
       if (!missing(na.values))
         expr[c("na")] <- na.values
       if (skip > 0)
@@ -74,5 +77,5 @@ GREA_read <- function(filelocation, header = FALSE, sep = " ", dec = ".",
     }
 
     # Give back DF and attach command to it
-      return(structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 300)))
+      return(structure(eval(expr), GREAcommand = deparse(expr, width.cutoff = 500L)))
   }

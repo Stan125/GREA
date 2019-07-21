@@ -36,6 +36,11 @@ Click [here](http://imgur.com/a/a9M1p) for an interactive comic on why GREA is i
     -   Skip rows when reading data
     -   Encode text-delimited files
 
+09.07.2019
+
+-   New Data Types Tab: Adds the to ability to
+    -   Manually select column types
+
 ### Installation
 
 To install the Add-In, run the following code:
